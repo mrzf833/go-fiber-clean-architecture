@@ -34,3 +34,7 @@ package yang digunakan :
 - go get -u github.com/golang-jwt/jwt/v5
 - go get github.com/gofiber/contrib/swagger
 - go install github.com/gofiber/cli/fiber@latest
+- go get github.com/joho/godotenv
+
+
+ter inspirasi dari : https://github.com/bxcodec/go-clean-arch
