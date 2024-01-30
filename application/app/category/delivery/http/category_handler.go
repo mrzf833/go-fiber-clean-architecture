@@ -21,11 +21,11 @@ func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase
 	}
 
 	// setup routes
-	app.Get("/category/:id", handler.GetByID)
-	app.Get("/category", handler.GetAll)
-	app.Post("/category", handler.Create)
-	app.Put("/category/:id", handler.Update)
-	app.Delete("/category/:id", handler.Delete)
+	app.Get("/:id", handler.GetByID)
+	app.Get("/", handler.GetAll)
+	app.Post("/", handler.Create)
+	app.Put("/:id", handler.Update)
+	app.Delete("/:id", handler.Delete)
 }
 
 func (handler *CategoryHandler) GetByID(c *fiber.Ctx) error {

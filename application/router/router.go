@@ -12,4 +12,5 @@ func SetupRouters(app *fiber.App, validate *validator.Validate)  {
 	})
 
 	categoryRouterApi(api, validate)
+	authRouterApi(api, validate)
 }

@@ -17,7 +17,7 @@ type ErrorResponse struct {
 
 var (
 	// error pesan untuk status 500
-	ErrInternalServerError = errors.New("Internal Server Error");
+	ErrInternalServerError = errors.New("Internal Server Error")
 	// error pesan untuk status 404
 	ErrNotFound = errors.New("Your requested Item is not found")
 	// error pesan untuk status 400
