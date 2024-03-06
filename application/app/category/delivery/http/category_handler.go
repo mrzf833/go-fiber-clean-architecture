@@ -1,23 +1,24 @@
 package http
 
 import (
-	"github.com/go-playground/validator/v10"
-	"github.com/gofiber/fiber/v2"
-	"github.com/mitchellh/mapstructure"
 	"go-fiber-clean-architecture/application/app/category/request"
 	"go-fiber-clean-architecture/application/domain"
 	"strconv"
+
+	"github.com/go-playground/validator/v10"
+	"github.com/gofiber/fiber/v2"
+	"github.com/mitchellh/mapstructure"
 )
 
 type CategoryHandler struct {
 	CategoryUseCase domain.CategoryUseCase
-	Validate *validator.Validate
+	Validate        *validator.Validate
 }
 
 func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase, validate *validator.Validate) {
 	handler := &CategoryHandler{
 		CategoryUseCase: categoryUseCase,
-		Validate: validate,
+		Validate:        validate,
 	}
 
 	// setup routes
@@ -46,7 +47,7 @@ func (handler *CategoryHandler) GetByID(c *fiber.Ctx) error {
 	// return response
 	return c.JSON(map[string]any{
 		"message": "Success get category",
-		"data": res,
+		"data":    res,
 	})
 }
 
@@ -59,7 +60,7 @@ func (handler *CategoryHandler) GetAll(c *fiber.Ctx) error {
 
 	return c.JSON(map[string]any{
 		"message": "Success get all category",
-		"data": res,
+		"data":    res,
 	})
 }
 
@@ -76,8 +77,6 @@ func (handler *CategoryHandler) Create(c *fiber.Ctx) error {
 
 	mapstructure.Decode(categoryCreateRequest, &category)
 
-	panic(category)
-
 	//insert data ke database menggunakan usecase
 	res, err := handler.CategoryUseCase.Create(c.Context(), category)
 
@@ -88,13 +87,13 @@ func (handler *CategoryHandler) Create(c *fiber.Ctx) error {
 	// return response
 	return c.Status(fiber.StatusCreated).JSON(map[string]any{
 		"message": "Success create category",
-		"data": res,
+		"data":    res,
 	})
 }
 
 func (handler *CategoryHandler) Update(c *fiber.Ctx) error {
 	var category domain.Category
-	
+
 	// ambil data dari request ke struct
 	err := c.BodyParser(&category)
 
@@ -108,7 +107,7 @@ func (handler *CategoryHandler) Update(c *fiber.Ctx) error {
 	}
 
 	category.ID = int64(id)
-	
+
 	// update data ke database menggunakan usecase
 	res, err := handler.CategoryUseCase.Update(c.Context(), category)
 	if err != nil {
@@ -118,7 +117,7 @@ func (handler *CategoryHandler) Update(c *fiber.Ctx) error {
 	// return response
 	return c.JSON(map[string]any{
 		"message": "Success update category",
-		"data": res,
+		"data":    res,
 	})
 }
 

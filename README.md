@@ -35,6 +35,8 @@ package yang digunakan :
 - go get github.com/gofiber/contrib/swagger
 - go install github.com/gofiber/cli/fiber@latest
 - go get github.com/joho/godotenv
+-  go get github.com/DATA-DOG/go-sqlmock
 
+matiin action save di goland
 
-ter inspirasi dari : https://github.com/bxcodec/go-clean-arch
+ter inspirasi dari : https://github.com/bxcodec/go-clean-arch yang branch v3

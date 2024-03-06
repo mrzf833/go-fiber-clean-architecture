@@ -2,21 +2,22 @@ package config
 
 import (
 	"fmt"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 	"strconv"
 	"time"
+
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 // yang akan di gunakan ketika kita ingin mengakses database
 var (
-	DB *gorm.DB
-	DbPort = Config("DB_PORT", "3306") // default port 3306 yaitu port mysql
-	DbDriver = Config("DB_DRIVER", "mysql") // default driver mysql
-	DbUser = Config("DB_USER", "root") // default user root
-	DbPassword = Config("DB_PASSWORD", "password") // default password root
-	DbHost = Config("DB_HOST", "localhost") // default host localhost
-	DbName = Config("DB_NAME", "go_fiber") // default database go_fiber
+	DB         *gorm.DB
+	DbPort     = Config("DB_PORT", "3306")      // default port 3306 yaitu port mysql
+	DbDriver   = Config("DB_DRIVER", "mysql")   // default driver mysql
+	DbUser     = Config("DB_USER", "root")      // default user root
+	DbPassword = Config("DB_PASSWORD", "")      // default password root
+	DbHost     = Config("DB_HOST", "localhost") // default host localhost
+	DbName     = Config("DB_NAME", "go_fiber")  // default database go_fiber
 )
 
 // ConnectDB untuk menghubungkan ke database
