@@ -16,7 +16,7 @@ import (
 	"testing"
 )
 
-func TestGetAll(t *testing.T) {
+func TestGetAllCategoryWithMock(t *testing.T) {
 	mockCategoryUseCase := new(mocks.CategoryUsecase)
 	// buat mock data
 	mockCategory := domain.Category{
@@ -60,7 +60,7 @@ func TestGetAll(t *testing.T) {
 	})
 }
 
-func TestGetById(t *testing.T) {
+func TestGetByIdCategoryWithMock(t *testing.T) {
 	mockCategoryUseCase := new(mocks.CategoryUsecase)
 	// buat mock data
 	mockCategory := domain.Category{
@@ -128,7 +128,7 @@ func TestGetById(t *testing.T) {
 	})
 }
 
-func TestCreate(t *testing.T) {
+func TestCreateCategoryWithMock(t *testing.T) {
 	mockCategoryUseCase := new(mocks.CategoryUsecase)
 	// buat mock data
 	mockCategory := domain.Category{
@@ -202,7 +202,7 @@ func TestCreate(t *testing.T) {
 	})
 }
 
-func TestUpdate(t *testing.T) {
+func TestUpdateCategoryWithMock(t *testing.T) {
 	mockCategoryUseCase := new(mocks.CategoryUsecase)
 	// buat mock data
 	mockCategory := domain.Category{
@@ -227,6 +227,7 @@ func TestUpdate(t *testing.T) {
 			Path: "/category/:id",
 		})
 
+		// request body
 		data := strings.NewReader(`{"ID": 1, "Name": "Test"}`)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPut, "/category/1", data)
@@ -276,7 +277,7 @@ func TestUpdate(t *testing.T) {
 	})
 }
 
-func TestDelete(t *testing.T) {
+func TestDeleteCategoryWithMock(t *testing.T) {
 	mockCategoryUseCase := new(mocks.CategoryUsecase)
 
 	t.Run("success", func(t *testing.T) {

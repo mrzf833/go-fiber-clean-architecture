@@ -1,6 +1,7 @@
 package config
 
 import (
+	"flag"
 	"fmt"
 	"strconv"
 	"time"
@@ -22,6 +23,16 @@ var (
 
 // ConnectDB untuk menghubungkan ke database
 func ConnectDB() {
+	// jika MODE test dijalankan
+	if flag.Lookup("test.v") != nil {
+		DbPort     = Config("DB_PORT_TEST", "3306")      // default port 3306 yaitu port mysql
+		DbDriver   = Config("DB_DRIVER_TEST", "mysql")   // default driver mysql
+		DbUser     = Config("DB_USER_TEST", "root")      // default user root
+		DbPassword = Config("DB_PASSWORD_TEST", "")      // default password root
+		DbHost     = Config("DB_HOST_TEST", "localhost") // default host localhost
+		DbName     = Config("DB_NAME_TEST", "go_fiber_test")  // default database go_fiber
+	}
+
 	var err error
 
 	// inisialisasi database
