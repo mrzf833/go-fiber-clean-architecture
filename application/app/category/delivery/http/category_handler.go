@@ -93,9 +93,20 @@ func (handler *CategoryHandler) Create(c *fiber.Ctx) error {
 
 func (handler *CategoryHandler) Update(c *fiber.Ctx) error {
 	var category domain.Category
-
+	var categoryCreateRequest request.CategoryCreateRequest
 	// ambil data dari request ke struct
-	err := c.BodyParser(&category)
+	c.BodyParser(&categoryCreateRequest)
+	err := handler.Validate.Struct(categoryCreateRequest)
+
+	if err != nil {
+		return err
+	}
+
+	mapstructure.Decode(categoryCreateRequest, &category)
+
+	if err != nil {
+		return err
+	}
 
 	if err != nil {
 		return err
