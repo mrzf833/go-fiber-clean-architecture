@@ -8,7 +8,6 @@ import (
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/middleware"
-	"time"
 )
 
 type AuthHandler struct {
@@ -24,8 +23,8 @@ func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *
 
 	// setup routes
 	app.Post("/login", handler.Login)
-	app.Get("/restricted", middleware.AuthMiddleware(),  handler.Restricted)
-	app.Post("/logout", middleware.AuthMiddleware(),  handler.Logout)
+	app.Get("/restricted", append(middleware.AuthMiddleware(), handler.Restricted)...)
+	app.Post("/logout", append(middleware.AuthMiddleware(), handler.Logout)...)
 }
 
 //func login(c *fiber.Ctx) error {
@@ -47,7 +46,7 @@ func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 	}
 
 	// mengambil data dari usecase
-	data, err := handler.ucase.Login(c.Context(), authCreateRequest)
+	data, err := handler.ucase.Login(c, authCreateRequest)
 	if err != nil {
 		return err
 	}
@@ -56,42 +55,42 @@ func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 }
 
 
+//func (handler *AuthHandler) Restricted(c *fiber.Ctx) error {
+//	cookie := c.Cookies("token")
+//
+//	token, err := jwt.ParseWithClaims(cookie, &jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
+//		return []byte("secret"), nil //using the SecretKey which was generated in th Login function
+//	})
+//
+//	if err != nil {
+//		c.Status(fiber.StatusUnauthorized)
+//		return c.JSON(fiber.Map{
+//			"message": "unauthenticated",
+//		})
+//	}
+//	claims := token.Claims.(*jwt.MapClaims)
+//	//name := claims["username"]
+//	//return c.SendString("Welcome " + name)
+//	return c.JSON(claims)
+//}
+
 func (handler *AuthHandler) Restricted(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	//name := claims["username"]
 	//return c.SendString("Welcome " + name)
-	return c.JSON(claims)
+	return c.SendString("Welcome " + claims["username"].(string))
 }
 
 func (handler *AuthHandler) Logout(c *fiber.Ctx) error {
-
-	user := c.Locals("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
 	username := claims["username"]
-	expired := time.Now().Add(-config.ExpireToken)
-	claims["exp"] =expired.Unix()
 
-	c.Cookie(&fiber.Cookie{
-		Name:     "user",
-		// Set expiry date to the past
-		Expires:  time.Now().Add(-(time.Hour * 24)),
-	})
+	// delete token di redis
+	config.RedisDb.Delete(username.(string))
 
 	return c.JSON(map[string]any{
 		"message": "Success logout",
-		"date": map[string]any{
-			"username": username,
-			"exp": claims["exp"],
-		},
 	})
-
-	//expired := time.Now().Add(-config.ExpireToken)
-	//c.Cookie(&fiber.Cookie{
-	//	Name:    "token",
-	//	Value:   "",
-	//	Expires: expired,
-	//})
-	//
-	//return c.Status(fiber.StatusOK).JSON(fiber.Map{"status": "success"})
 }

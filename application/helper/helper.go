@@ -1,6 +1,9 @@
 package helper
 
-import "reflect"
+import (
+	"go-fiber-clean-architecture/application/helper/helper2"
+	"reflect"
+)
 
 func InterfaceSlice(slice interface{}) []interface{} {
 	s := reflect.ValueOf(slice)
@@ -20,4 +23,8 @@ func InterfaceSlice(slice interface{}) []interface{} {
 	}
 
 	return ret
+}
+
+func GetApplicationPath() string {
+	return helper2.GetRootPath() + "/application"
 }

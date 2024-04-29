@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"github.com/gofiber/fiber/v2"
 	"go-fiber-clean-architecture/application/app/auth/request"
 	"time"
 )
@@ -19,7 +20,7 @@ func (c *Auth) TableName() string {
 }
 
 type AuthUseCase interface {
-	Login(ctx context.Context, request request.AuthCreateRequest) (map[string]interface{}, error)
+	Login(c *fiber.Ctx, request request.AuthCreateRequest) (map[string]interface{}, error)
 	//Logout(ctx context.Context) error
 	//User(ctx context.Context, category Auth) (Auth, error)
 }

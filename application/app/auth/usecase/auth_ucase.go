@@ -1,8 +1,9 @@
 package usecase
 
 import (
-	"context"
+	"encoding/json"
 	"errors"
+	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"go-fiber-clean-architecture/application/app/auth/request"
 	"go-fiber-clean-architecture/application/config"
@@ -22,9 +23,9 @@ func NewAuthUseCase(authRepo domain.AuthRepository) domain.AuthUseCase {
 	}
 }
 
-func (uc *authUseCase) Login(ctx context.Context, request request.AuthCreateRequest) (map[string]interface{}, error) {
+func (uc *authUseCase) Login(c *fiber.Ctx, request request.AuthCreateRequest) (map[string]interface{}, error) {
 	// mengambil data dari repository
-	user, err := uc.authRepo.GetByUsername(ctx, request.Username)
+	user, err := uc.authRepo.GetByUsername(c.Context(), request.Username)
 	// ini adalah contoh penggunaan error handling
 	// tapi ini sebenarnya tidak perlu karena error handling sudah di handle di layer delivery
 	if err != nil {
@@ -52,6 +53,15 @@ func (uc *authUseCase) Login(ctx context.Context, request request.AuthCreateRequ
 	if err != nil {
 		return map[string]interface{}{}, exception.ErrInternalServerError
 	}
+	// data auth ke redis
+	dataAuth := map[string]any{
+		"username": user.Username,
+		"token": t,
+		"expire": time.Now().Add(config.ExpireToken),
+	}
+	dataAuthByte, _ := json.Marshal(dataAuth)
+	// store data ke redis
+	config.RedisDb.Set(user.Username, dataAuthByte, config.ExpireToken)
 
 	return map[string]interface{}{
 		"token": t,

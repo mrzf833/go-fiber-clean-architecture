@@ -4,7 +4,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/exception"
 )
 
@@ -29,7 +28,7 @@ func TestApp(router ...HelperRouter) *fiber.App {
 	app.Use(cors.New(), recover.New())
 
 	// connect to database
-	config.ConnectDB()
+	ConnectDB()
 
 	// setup routes
 	for _, r := range router {

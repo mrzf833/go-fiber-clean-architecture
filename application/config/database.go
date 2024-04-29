@@ -1,80 +1,17 @@
 package config
 
 import (
-	"flag"
-	"fmt"
-	"strconv"
-	"time"
-
-	"gorm.io/driver/mysql"
+	"go-fiber-clean-architecture/application/helper/helper2"
 	"gorm.io/gorm"
 )
 
 // yang akan di gunakan ketika kita ingin mengakses database
 var (
 	DB         *gorm.DB
-	DbPort     = Config("DB_PORT", "3306")      // default port 3306 yaitu port mysql
-	DbDriver   = Config("DB_DRIVER", "mysql")   // default driver mysql
-	DbUser     = Config("DB_USER", "root")      // default user root
-	DbPassword = Config("DB_PASSWORD", "")      // default password root
-	DbHost     = Config("DB_HOST", "localhost") // default host localhost
-	DbName     = Config("DB_NAME", "go_fiber")  // default database go_fiber
+	DbPort     = helper2.GetEnv("DB_PORT", "3306")      // default port 3306 yaitu port mysql
+	DbDriver   = helper2.GetEnv("DB_DRIVER", "mysql")   // default driver mysql
+	DbUser     = helper2.GetEnv("DB_USER", "root")      // default user root
+	DbPassword = helper2.GetEnv("DB_PASSWORD", "")      // default password root
+	DbHost     = helper2.GetEnv("DB_HOST", "localhost") // default host localhost
+	DbName     = helper2.GetEnv("DB_NAME", "go_fiber")  // default database go_fiber
 )
-
-// ConnectDB untuk menghubungkan ke database
-func ConnectDB() {
-	// jika MODE test dijalankan
-	if flag.Lookup("test.v") != nil {
-		DbPort     = Config("DB_PORT_TEST", "3306")      // default port 3306 yaitu port mysql
-		DbDriver   = Config("DB_DRIVER_TEST", "mysql")   // default driver mysql
-		DbUser     = Config("DB_USER_TEST", "root")      // default user root
-		DbPassword = Config("DB_PASSWORD_TEST", "")      // default password root
-		DbHost     = Config("DB_HOST_TEST", "localhost") // default host localhost
-		DbName     = Config("DB_NAME_TEST", "go_fiber_test")  // default database go_fiber
-	}
-
-	var err error
-
-	// inisialisasi database
-	// pengecekan port ada atau tidak
-	port, err := strconv.ParseUint(DbPort, 10, 32)
-	if err != nil {
-		panic("port error")
-	}
-
-	// inisialisasi dsn
-	var dsn string
-
-	// mengkonekkan ke database
-	if DbDriver == "mysql" {
-		dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", DbUser, DbPassword, DbHost, port, DbName)
-		DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	}
-	//else if Config("DB_DRIVER") == "postgres" {
-	//	dsn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Config("DB_HOST"), port, Config("DB_USER"), Config("DB_PASSWORD"), Config("DB_NAME"))
-	//	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	//}
-
-	fmt.Println(dsn)
-
-	// pengecekan error
-	if err != nil {
-		panic("failed to connect database")
-	}
-
-	// set max idle connection
-	sqlDB, err := DB.DB()
-	if err != nil {
-		panic("error db in 46 line")
-	}
-	sqlDB.SetMaxIdleConns(5)
-	sqlDB.SetMaxOpenConns(20)
-	sqlDB.SetConnMaxLifetime(60 * time.Minute)
-	sqlDB.SetConnMaxIdleTime(10 * time.Minute)
-
-	fmt.Println("Connection Opened to Database")
-
-	// Migrate the schema
-	//DB.AutoMigrate(&model.Todo{})
-	//fmt.Println("Database Migrated")
-}

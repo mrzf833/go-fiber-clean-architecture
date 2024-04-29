@@ -17,6 +17,6 @@ func categoryRouterApi(api fiber.Router, validate *validator.Validate)  {
 	categoryUseCase := usecase.NewCategoryUseCase(categoryRepository)
 	// setup category router
 	// with middleware auth jwt
-	categoryApi := api.Group("/category", middleware.AuthMiddleware())
+	categoryApi := api.Group("/category", middleware.AuthMiddleware()...)
 	http.NewCategoryHandler(categoryApi, usecase.NewCategoryUseCase(categoryUseCase), validate)
 }
