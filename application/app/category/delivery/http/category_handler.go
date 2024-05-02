@@ -53,7 +53,6 @@ func (handler *CategoryHandler) GetByID(c *fiber.Ctx) error {
 
 func (handler *CategoryHandler) GetAll(c *fiber.Ctx) error {
 	res, err := handler.CategoryUseCase.GetAll(c.Context())
-
 	if err != nil {
 		return err
 	}

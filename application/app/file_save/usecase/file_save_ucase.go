@@ -4,6 +4,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/helper"
+	"path/filepath"
+	"strconv"
+	"time"
 )
 
 type fileSaveUseCase struct {
@@ -30,12 +33,13 @@ func (uc *fileSaveUseCase) Create(c *fiber.Ctx, fileSave domain.FileSave) (domai
 
 	// Save file to root directory:
 	applicationPath := helper.GetApplicationPath()
-	err = helper.SaveFile(c, file, applicationPath+"/storage/public/upload_file", file.Filename)
+	nameUnix := strconv.FormatInt(time.Now().UnixMicro(), 10)
+	fileName := nameUnix + filepath.Ext(file.Filename)
+	err = helper.SaveFile(c, file, applicationPath+"/storage/public/upload_file", fileName)
 	if err != nil {
 		return domain.FileSave{}, err
 	}
-
-	fileSave.Name = "/upload_file/" + file.Filename
+	fileSave.Name = "/upload_file/" + fileName
 	res, err := uc.fileSaveRepo.Create(c, fileSave)
 	return res, err
 }

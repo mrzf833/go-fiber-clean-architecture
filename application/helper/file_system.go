@@ -11,7 +11,6 @@ func SaveFile(c *fiber.Ctx, fileheader *multipart.FileHeader, pathDirectory stri
 	if err != nil {
 		return err
 	}
-
 	return c.SaveFile(fileheader, pathDirectory + "/" + nameFile)
 }
 

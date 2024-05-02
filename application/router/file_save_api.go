@@ -18,5 +18,5 @@ func fileSaveRouterApi(api fiber.Router, validate *validator.Validate)  {
 	// setup category router
 	// with middleware auth jwt
 	fileSaveApi := api.Group("/file-save", middleware.AuthMiddleware()...)
-	http.NewFileSaveHandler(fileSaveApi, usecase.NewFileSaveUseCase(categoryUseCase), validate)
+	http.NewFileSaveHandler(fileSaveApi, categoryUseCase, validate)
 }
