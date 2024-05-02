@@ -2,6 +2,7 @@ package domain
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -17,6 +18,7 @@ func (c *FileSave) TableName() string {
 }
 
 type FileSaveUsecase interface {
+	GetByID(ctx *fiber.Ctx, id int64) (FileSave, error)
 	GetAll(ctx *fiber.Ctx) ([]FileSave, error)
 	Create(ctx *fiber.Ctx, fileSave FileSave) (FileSave, error)
 	Update(ctx *fiber.Ctx, fileSave FileSave) (FileSave, error)
@@ -25,7 +27,9 @@ type FileSaveUsecase interface {
 
 type FileSaveRepository interface {
 	GetAll(ctx *fiber.Ctx) ([]FileSave, error)
+	GetByID(ctx *fiber.Ctx, id int64) (FileSave, error)
 	Create(ctx *fiber.Ctx, fileSave FileSave) (FileSave, error)
 	Update(ctx *fiber.Ctx, fileSave FileSave) (FileSave, error)
 	Delete(ctx *fiber.Ctx, id int64) (error)
+	GetDb() (db *gorm.DB)
 }

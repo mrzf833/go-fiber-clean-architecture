@@ -45,7 +45,9 @@ func HandleError(c *fiber.Ctx, err error) error {
 	if config.AppMode == "development"{
 		message = err.Error()
 	}
-	return c.Status(fiber.StatusInternalServerError).SendString(message)
+	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		"message": message,
+	})
 }
 
 // handler untuk menangani error validation
