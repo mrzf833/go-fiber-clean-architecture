@@ -27,10 +27,8 @@ func (uc *categoryUseCase) GetByID(ctx context.Context, id int64) (domain.Catego
 }
 
 func (uc *categoryUseCase) GetAll(ctx context.Context) ([]domain.Category, error) {
-	uc.CategoryRepo.GetAll(ctx)
-	//return res, err
-
-	return []domain.Category{}, nil
+	res, err := uc.CategoryRepo.GetAll(ctx)
+	return res, err
 }
 
 func (uc *categoryUseCase) Create(ctx context.Context, category domain.Category) (domain.Category, error) {
