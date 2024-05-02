@@ -21,6 +21,7 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - elastic search -> belum
 - monitoring queue
 - websocket -> belum
+- handle file/image dan menambahkan validation -> selesai
 
 package yang digunakan :
 - go get github.com/stretchr/testify
