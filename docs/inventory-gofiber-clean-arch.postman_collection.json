@@ -1523,6 +1523,420 @@
 			]
 		},
 		{
+			"name": "file saves",
+			"item": [
+				{
+					"name": "get all file-save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/api/file-save"
+					},
+					"response": [
+						{
+							"name": "get all category 200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": "{{url}}/api/category"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success get all category\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"buku\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"elektronik\"\n        },\n        {\n            \"id\": 3,\n            \"name\": \"hp\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "create file-save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/mrzf833/Desktop/Screenshot 2024-05-02 at 21.43.26.png"
+								}
+							]
+						},
+						"url": "{{url}}/api/file-save"
+					},
+					"response": [
+						{
+							"name": "create category 201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "buku",
+											"type": "text"
+										}
+									]
+								},
+								"url": "{{url}}/api/category"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success create category\",\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"buku\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get file-save By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}/api/file-save/:fileSaveId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"file-save",
+								":fileSaveId"
+							],
+							"variable": [
+								{
+									"key": "fileSaveId",
+									"value": "57"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get category By Id 200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{url}}/api/category/:categoryId",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n  \"message\": \"Success get category\",\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"buku\"\n  }\n}"
+						}
+					]
+				},
+				{
+					"name": "update file-save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/mrzf833/Desktop/Screenshot 2024-05-02 at 21.43.26.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/api/file-save/:fileSaveId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"file-save",
+								":fileSaveId"
+							],
+							"variable": [
+								{
+									"key": "fileSaveId",
+									"value": "57"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "update category",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "laptop",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/api/category/:categoryId",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success update category\",\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"laptop\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "delete file-save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "/api/file-save/:fileSaveId",
+							"path": [
+								"api",
+								"file-save",
+								":fileSaveId"
+							],
+							"variable": [
+								{
+									"key": "fileSaveId",
+									"value": "57"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "delete category 200 OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/api/category/:categoryId",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"category",
+										":categoryId"
+									],
+									"variable": [
+										{
+											"key": "categoryId",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"message\": \"Success delete category\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "login",
 			"event": [
 				{
