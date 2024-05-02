@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Apr 23, 2024 at 06:53 AM
+-- Generation Time: May 02, 2024 at 08:00 PM
 -- Server version: 5.7.44
 -- PHP Version: 8.2.12
 
@@ -28,20 +28,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+                              `id` bigint(20) NOT NULL,
+                              `name` varchar(100) NOT NULL,
+                              `created_at` datetime DEFAULT NULL,
+                              `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `categories`
---
-
-INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(2, 'berubah', '2023-12-13 14:52:20', '2023-12-27 21:51:57'),
-(3, 'bisa', '2023-12-13 14:52:23', '2023-12-13 14:52:23'),
-(4, 'bisa', '2023-12-13 16:31:00', '2023-12-13 16:31:00');
 
 -- --------------------------------------------------------
 
@@ -50,10 +41,10 @@ INSERT INTO `categories` (`id`, `name`, `created_at`, `updated_at`) VALUES
 --
 
 CREATE TABLE `file_saves` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+                              `id` bigint(20) NOT NULL,
+                              `name` varchar(100) NOT NULL,
+                              `created_at` datetime DEFAULT NULL,
+                              `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,11 +54,11 @@ CREATE TABLE `file_saves` (
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `created_at` datetime DEFAULT NULL,
-  `updated_at` datetime DEFAULT NULL
+                         `id` bigint(20) UNSIGNED NOT NULL,
+                         `username` varchar(255) NOT NULL,
+                         `password` varchar(255) NOT NULL,
+                         `created_at` datetime DEFAULT NULL,
+                         `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -75,7 +66,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `updated_at`) VALUES
-(1, 'john', '$2a$10$kRlgFH4bFxbaR36IHV9//OPQ/2gE1AMQuDQpAzTnCMn1gk.0IPaG6', '2024-01-02 19:34:17', '2024-01-02 19:34:17');
+                                                                                   (1, 'john', '$2a$10$kRlgFH4bFxbaR36IHV9//OPQ/2gE1AMQuDQpAzTnCMn1gk.0IPaG6', '2024-01-02 19:34:17', '2024-01-02 19:34:17'),
+                                                                                   (2, 'john2', '$2a$10$kRlgFH4bFxbaR36IHV9//OPQ/2gE1AMQuDQpAzTnCMn1gk.0IPaG6', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -85,19 +77,19 @@ INSERT INTO `users` (`id`, `username`, `password`, `created_at`, `updated_at`) V
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `file_saves`
 --
 ALTER TABLE `file_saves`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+    ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -107,19 +99,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `file_saves`
 --
 ALTER TABLE `file_saves`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+    MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+    MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
