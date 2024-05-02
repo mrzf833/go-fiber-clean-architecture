@@ -57,40 +57,6 @@ func (uc *fileSaveUseCase) Create(c *fiber.Ctx, fileSave domain.FileSave) (domai
 	return res, err
 }
 
-//func (uc *fileSaveUseCase) Update(c *fiber.Ctx, fileSave domain.FileSave) (domain.FileSave, error) {
-//	file, err := c.FormFile("file")
-//	if err != nil {
-//		return domain.FileSave{}, err
-//	}
-//
-//	// get file before update
-//	fileSaveBefore, err := uc.fileSaveRepo.GetByID(c, fileSave.ID)
-//	if err != nil {
-//		return domain.FileSave{}, err
-//	}
-//
-//	applicationPath := helper.GetApplicationPath()
-//	nameUnix := strconv.FormatInt(time.Now().UnixMicro(), 10)
-//	fileName := nameUnix + filepath.Ext(file.Filename)
-//	err = helper.SaveFile(c, file, applicationPath+"/storage/public/upload_file", fileName)
-//	if err != nil {
-//		return domain.FileSave{}, err
-//	}
-//	fileSave.Name = "/upload_file/" + fileName
-//
-//	err = os.Remove(applicationPath + "/storage/public" + fileSaveBefore.Name)
-//	// jika gagal menghapus file lama maka akan mengembalikan error dan mengahapus file baru
-//	if err != nil {
-//		// menghapus file baru
-//		os.Remove(applicationPath + "/storage/public" + fileSave.Name)
-//		return domain.FileSave{}, err
-//	}
-//
-//	//	pengupdatean data
-//	res, err := uc.fileSaveRepo.Update(c, fileSave)
-//	return res, err
-//}
-
 func (uc *fileSaveUseCase) Update(c *fiber.Ctx, fileSave domain.FileSave) (domain.FileSave, error) {
 	file, err := c.FormFile("file")
 	if err != nil {
