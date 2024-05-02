@@ -27,14 +27,6 @@ func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *
 	app.Post("/logout", append(middleware.AuthMiddleware(), handler.Logout)...)
 }
 
-//func login(c *fiber.Ctx) error {
-//
-//	jwt.MapClaims{}
-//
-//	jwt.NewWithClaims(jwt.SigningMethodHS256)
-//	return nil
-//}
-
 func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 	var authCreateRequest request.AuthCreateRequest
 	// ambil data dari request ke struct
@@ -54,31 +46,9 @@ func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 	return c.JSON(data)
 }
 
-
-//func (handler *AuthHandler) Restricted(c *fiber.Ctx) error {
-//	cookie := c.Cookies("token")
-//
-//	token, err := jwt.ParseWithClaims(cookie, &jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
-//		return []byte("secret"), nil //using the SecretKey which was generated in th Login function
-//	})
-//
-//	if err != nil {
-//		c.Status(fiber.StatusUnauthorized)
-//		return c.JSON(fiber.Map{
-//			"message": "unauthenticated",
-//		})
-//	}
-//	claims := token.Claims.(*jwt.MapClaims)
-//	//name := claims["username"]
-//	//return c.SendString("Welcome " + name)
-//	return c.JSON(claims)
-//}
-
 func (handler *AuthHandler) Restricted(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
-	//name := claims["username"]
-	//return c.SendString("Welcome " + name)
 	return c.SendString("Welcome " + claims["username"].(string))
 }
 
