@@ -10,7 +10,7 @@ isi dari docs
 
 disini saya mencoba membuat go clean architecture dengan menggunakan :
 - golang -> require go 1.19 keatas
-- mysql -> sudah package
+- mysql -> selesai
 - docker
 - postman
 - swagger -> sudah package
