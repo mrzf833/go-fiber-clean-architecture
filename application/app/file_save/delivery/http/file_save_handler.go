@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mitchellh/mapstructure"
@@ -30,24 +31,26 @@ func (handler *FileSaveHandler) Create(c *fiber.Ctx) error {
 	var fileSaveCreateRequest request.FileSaveCreateRequest
 	// ambil data dari request ke struct
 	c.BodyParser(&fileSaveCreateRequest)
+	fileSaveCreateRequest.File, _ = c.FormFile("file")
 	err := handler.Validate.Struct(fileSaveCreateRequest)
 
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 
 	mapstructure.Decode(fileSaveCreateRequest, &fileSave)
 
 	//insert data ke database menggunakan usecase
-	//res, err := handler.FileSaveUseCase.Create(c, fileSave)
+	res, err := handler.FileSaveUseCase.Create(c, fileSave)
 
-	//if err != nil {
-	//	return err
-	//}
+	if err != nil {
+		return err
+	}
 
 	// return response
 	return c.Status(fiber.StatusCreated).JSON(map[string]any{
 		"message": "Success create file save",
-		//"data":    res,
+		"data":    res,
 	})
 }

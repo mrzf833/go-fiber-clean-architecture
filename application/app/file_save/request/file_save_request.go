@@ -1,5 +1,8 @@
 package request
 
+import "mime/multipart"
+
 type FileSaveCreateRequest struct {
-	File []byte `validate:"required,file"`
+	File *multipart.FileHeader `form:"file" validate:"required,file_custom_validate"`
+	Coba string `form:"coba" validate:"required"`
 }

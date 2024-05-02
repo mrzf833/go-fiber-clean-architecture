@@ -30,11 +30,12 @@ func (uc *fileSaveUseCase) Create(c *fiber.Ctx, fileSave domain.FileSave) (domai
 
 	// Save file to root directory:
 	applicationPath := helper.GetApplicationPath()
-	err = c.SaveFile(file, applicationPath + "/storage/upload_file"+file.Filename)
+	err = helper.SaveFile(c, file, applicationPath+"/storage/public/upload_file", file.Filename)
 	if err != nil {
 		return domain.FileSave{}, err
 	}
 
+	fileSave.Name = "/upload_file/" + file.Filename
 	res, err := uc.fileSaveRepo.Create(c, fileSave)
 	return res, err
 }

@@ -14,7 +14,7 @@ import (
 
 func AppInit() *fiber.App {
 	// validate
-	validate := validator.New()
+	validate := validator.New(validator.WithRequiredStructEnabled())
 	// setup application in main.go
 	app := fiber.New(fiber.Config{
 		//Prefork: true,
@@ -24,6 +24,12 @@ func AppInit() *fiber.App {
 			return exception.HandleError(c, err)
 		},
 	})
+	// add custom validation
+	app.Use(func(ctx *fiber.Ctx) error {
+		customValidation := helper.NewCustomValidation(validate, ctx)
+		customValidation.RegisterCustomValidation()
+		return ctx.Next()
+	})
 	// setup middleware
 	app.Use(cors.New(), recover.New())
 
@@ -32,6 +38,8 @@ func AppInit() *fiber.App {
 	// connect to redis
 	helper.ConnectRedis()
 
+	// setup static file
+	app.Static("/static", helper.GetApplicationPath() + "/storage/public")
 	// setup routes
 	application.SetupRouters(app, validate)
 
