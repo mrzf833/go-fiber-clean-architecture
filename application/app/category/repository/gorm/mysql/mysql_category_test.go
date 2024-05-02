@@ -5,33 +5,13 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 	"go-fiber-clean-architecture/application/domain"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"log"
+	"go-fiber-clean-architecture/application/helper"
 	"testing"
 	"time"
 )
 
-func NewMockDB() (*gorm.DB, sqlmock.Sqlmock) {
-	db, mock, err := sqlmock.New()
-	if err != nil {
-		log.Fatalf("An error '%s' was not expected when opening a stub database connection", err)
-	}
-
-	gormDB, err := gorm.Open(mysql.New(mysql.Config{
-		Conn:                      db,
-		SkipInitializeWithVersion: true,
-	}), &gorm.Config{})
-
-	if err != nil {
-		log.Fatalf("An error '%s' was not expected when opening gorm database", err)
-	}
-
-	return gormDB, mock
-}
-
 func TestGetAll(t *testing.T) {
-	db, mock := NewMockDB()
+	db, mock := helper.NewMockDB()
 
 	mockCategories := []domain.Category{
 		{
@@ -60,7 +40,7 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestGetById_success(t *testing.T) {
-	db, mock := NewMockDB()
+	db, mock := helper.NewMockDB()
 
 	mockCategory := domain.Category{
 		ID:   1,
@@ -83,7 +63,7 @@ func TestGetById_success(t *testing.T) {
 }
 
 func TestGetById_notFound(t *testing.T) {
-	db, mock := NewMockDB()
+	db, mock := helper.NewMockDB()
 
 	mockCategory := domain.Category{
 		ID:   1,
@@ -105,7 +85,7 @@ func TestGetById_notFound(t *testing.T) {
 }
 
 func TestCreate_success(t *testing.T) {
-	db, mock := NewMockDB()
+	db, mock := helper.NewMockDB()
 
 	now := time.Now()
 	cat := domain.Category{
@@ -128,7 +108,7 @@ func TestCreate_success(t *testing.T) {
 
 
 func TestUpdate_success(t *testing.T) {
-	db, mock := NewMockDB()
+	db, mock := helper.NewMockDB()
 
 	now := time.Now()
 	cat := domain.Category{
@@ -152,7 +132,7 @@ func TestUpdate_success(t *testing.T) {
 
 
 func TestDelete_success(t *testing.T) {
-	db, mock := NewMockDB()
+	db, mock := helper.NewMockDB()
 
 	now := time.Now()
 	cat := domain.Category{

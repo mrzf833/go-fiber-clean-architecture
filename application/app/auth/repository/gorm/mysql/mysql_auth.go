@@ -1,4 +1,4 @@
-package mysql
+package gorm_mysql
 
 import (
 	"context"
