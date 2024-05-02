@@ -1,7 +1,6 @@
 package helper
 
 import (
-	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"mime/multipart"
@@ -95,7 +94,6 @@ func (cl CustomValidationStruct) ImageCustomValidate() {
 
 		// validate apakah ini file
 		err := cl.validate.Struct(fileValidation{File: pathTmp + fileName})
-		fmt.Println(err)
 		if err != nil {
 			return false
 		}

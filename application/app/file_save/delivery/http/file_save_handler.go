@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/mitchellh/mapstructure"
@@ -35,7 +34,6 @@ func (handler *FileSaveHandler) Create(c *fiber.Ctx) error {
 	err := handler.Validate.Struct(fileSaveCreateRequest)
 
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
