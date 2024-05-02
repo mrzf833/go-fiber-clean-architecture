@@ -1535,7 +1535,8 @@
 							"    postman.setEnvironmentVariable('token', jsonData.data.token);",
 							"});"
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -1563,7 +1564,7 @@
 						},
 						{
 							"key": "password",
-							"value": "superadmin123",
+							"value": "doe",
 							"type": "text"
 						}
 					]
@@ -1634,7 +1635,8 @@
 						"exec": [
 							""
 						],
-						"type": "text/javascript"
+						"type": "text/javascript",
+						"packages": {}
 					}
 				}
 			],
@@ -1659,27 +1661,12 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "superadmin",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "superadmin123",
-							"type": "text"
-						}
-					]
-				},
-				"url": "{{url}}/api/user-login"
+				"url": "{{url}}/api/logout"
 			},
 			"response": []
 		},
 		{
-			"name": "restricted",
+			"name": "user",
 			"event": [
 				{
 					"listen": "test",
@@ -1692,9 +1679,6 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -1716,22 +1700,7 @@
 						"type": "text"
 					}
 				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "superadmin",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "superadmin123",
-							"type": "text"
-						}
-					]
-				},
-				"url": "{{url}}/api/restricted"
+				"url": "{{url}}/api/user"
 			},
 			"response": []
 		}

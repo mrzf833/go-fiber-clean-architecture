@@ -21,10 +21,14 @@ func (c *Auth) TableName() string {
 
 type AuthUseCase interface {
 	Login(c *fiber.Ctx, request request.AuthCreateRequest) (map[string]interface{}, error)
-	//Logout(ctx context.Context) error
-	//User(ctx context.Context, category Auth) (Auth, error)
 }
 
 type AuthRepository interface {
 	GetByUsername(ctx context.Context, username string) (Auth, error)
+}
+
+type AuthHandler interface {
+	Login(c *fiber.Ctx) error
+	User(c *fiber.Ctx) error
+	Logout(c *fiber.Ctx) error
 }

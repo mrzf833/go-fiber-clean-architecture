@@ -18,21 +18,18 @@ type CustomValidationInterface interface {
 	// nama validatenya file_custom_validate
 	// type validatenya *multipart.FileHeader
 	FileCustomValidate()
-
-	// register all custom validation
-	RegisterCustomValidation()
 }
 
 func NewCustomValidation(validate *validator.Validate, ctx *fiber.Ctx) (CustomValidationInterface) {
-	return &CustomValidationStruct{
+	customValidationStruct := &CustomValidationStruct{
 		validate: validate,
 		ctx: ctx,
 	}
-}
 
-func (cl CustomValidationStruct) RegisterCustomValidation() {
-	cl.FileCustomValidate()
-	cl.ImageCustomValidate()
+	// register custom validation
+	customValidationStruct.FileCustomValidate()
+	customValidationStruct.ImageCustomValidate()
+	return customValidationStruct
 }
 
 // nama validatenya file_custom_validate

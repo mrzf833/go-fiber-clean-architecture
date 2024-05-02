@@ -15,7 +15,7 @@ type AuthHandler struct {
 	ucase domain.AuthUseCase
 }
 
-func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *validator.Validate) {
+func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *validator.Validate) domain.AuthHandler{
 	handler := &AuthHandler{
 		Validate: validate,
 		ucase: authUseCase,
@@ -23,8 +23,10 @@ func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *
 
 	// setup routes
 	app.Post("/login", handler.Login)
-	app.Get("/restricted", append(middleware.AuthMiddleware(), handler.Restricted)...)
+	app.Get("/user", append(middleware.AuthMiddleware(), handler.User)...)
 	app.Post("/logout", append(middleware.AuthMiddleware(), handler.Logout)...)
+
+	return handler
 }
 
 func (handler *AuthHandler) Login(c *fiber.Ctx) error {
@@ -46,7 +48,7 @@ func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 	return c.JSON(data)
 }
 
-func (handler *AuthHandler) Restricted(c *fiber.Ctx) error {
+func (handler *AuthHandler) User(c *fiber.Ctx) error {
 	user := c.Locals("user").(*jwt.Token)
 	claims := user.Claims.(jwt.MapClaims)
 	return c.SendString("Welcome " + claims["username"].(string))

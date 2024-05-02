@@ -26,8 +26,7 @@ func AppInit() *fiber.App {
 	})
 	// add custom validation
 	app.Use(func(ctx *fiber.Ctx) error {
-		customValidation := helper.NewCustomValidation(validate, ctx)
-		customValidation.RegisterCustomValidation()
+		helper.NewCustomValidation(validate, ctx)
 		return ctx.Next()
 	})
 	// setup middleware
