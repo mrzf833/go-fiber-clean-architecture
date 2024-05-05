@@ -35,6 +35,10 @@ func HandleError(c *fiber.Ctx, err error) error {
 		// jika error dari validation maka akan di tampilkan error 400
 		// melewati function HandlerNotFound
 		return HandlerNotFound(c, valida)
+
+		// ini adalah custom error langsung
+	}else if  customError, ok := err.(HandlerCustomErrorInterface); ok{
+		return c.Status(customError.GetStatusCode()).JSON(customError.GetMessage())
 	}
 
 	// pengecekan error jika error sama dengan selain yang diatas maka akan di tampilkan error 500

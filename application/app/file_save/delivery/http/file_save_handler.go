@@ -14,7 +14,7 @@ type FileSaveHandler struct {
 	Validate        *validator.Validate
 }
 
-func NewFileSaveHandler(app fiber.Router, fileSaveUseCase domain.FileSaveUsecase, validate *validator.Validate) {
+func NewFileSaveHandler(app fiber.Router, fileSaveUseCase domain.FileSaveUsecase, validate *validator.Validate) domain.FileSaveHandler {
 	handler := &FileSaveHandler{
 		FileSaveUseCase: fileSaveUseCase,
 		Validate:        validate,
@@ -26,6 +26,8 @@ func NewFileSaveHandler(app fiber.Router, fileSaveUseCase domain.FileSaveUsecase
 	app.Post("/", handler.Create)
 	app.Post("/:id", handler.Update)
 	app.Delete("/:id", handler.Delete)
+
+	return handler
 }
 
 func (handler *FileSaveHandler) GetAll(c *fiber.Ctx) error {

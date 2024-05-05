@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"encoding/json"
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"go-fiber-clean-architecture/application/app/auth/request"
@@ -29,13 +28,17 @@ func (uc *authUseCase) Login(c *fiber.Ctx, request request.AuthCreateRequest) (m
 	// ini adalah contoh penggunaan error handling
 	// tapi ini sebenarnya tidak perlu karena error handling sudah di handle di layer delivery
 	if err != nil {
-		return map[string]interface{}{}, err
+		return map[string]interface{}{}, exception.NewHandlerCustomError(400, fiber.Map{
+			"message": "username or password is wrong",
+		})
 	}
 
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(request.Password))
 	//pengecekan username dan password apakah sama atau tidak
 	if user.Username != request.Username || err != nil{
-		return map[string]interface{}{}, errors.New("username or password is wrong")
+		return map[string]interface{}{}, exception.NewHandlerCustomError(400, fiber.Map{
+			"message": "username or password is wrong",
+		})
 	}
 
 	// set expire token
@@ -68,4 +71,19 @@ func (uc *authUseCase) Login(c *fiber.Ctx, request request.AuthCreateRequest) (m
 		"expire": day,
 		"username": user.Username,
 	}, nil
+}
+
+func (uc *authUseCase) User(c *fiber.Ctx) jwt.MapClaims{
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	return claims
+}
+
+func (uc *authUseCase) Logout(c *fiber.Ctx) {
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	username := claims["username"]
+
+	// delete token di redis
+	config.RedisDb.Delete(username.(string))
 }

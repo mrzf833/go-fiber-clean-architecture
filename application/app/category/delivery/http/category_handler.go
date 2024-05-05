@@ -15,7 +15,7 @@ type CategoryHandler struct {
 	Validate        *validator.Validate
 }
 
-func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase, validate *validator.Validate) {
+func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase, validate *validator.Validate) domain.CategoryHandler {
 	handler := &CategoryHandler{
 		CategoryUseCase: categoryUseCase,
 		Validate:        validate,
@@ -27,6 +27,8 @@ func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase
 	app.Post("/", handler.Create)
 	app.Put("/:id", handler.Update)
 	app.Delete("/:id", handler.Delete)
+
+	return handler
 }
 
 func (handler *CategoryHandler) GetByID(c *fiber.Ctx) error {

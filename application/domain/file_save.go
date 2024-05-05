@@ -33,3 +33,11 @@ type FileSaveRepository interface {
 	Delete(ctx *fiber.Ctx, id int64) (error)
 	GetDb() (db *gorm.DB)
 }
+
+type FileSaveHandler interface {
+	GetByID(c *fiber.Ctx) error
+	GetAll(c *fiber.Ctx) error
+	Create(c *fiber.Ctx) error
+	Update(c *fiber.Ctx) error
+	Delete(c *fiber.Ctx) error
+}

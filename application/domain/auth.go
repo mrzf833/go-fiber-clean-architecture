@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 	"go-fiber-clean-architecture/application/app/auth/request"
 	"time"
 )
@@ -21,6 +22,8 @@ func (c *Auth) TableName() string {
 
 type AuthUseCase interface {
 	Login(c *fiber.Ctx, request request.AuthCreateRequest) (map[string]interface{}, error)
+	User(c *fiber.Ctx) jwt.MapClaims
+	Logout(c *fiber.Ctx)
 }
 
 type AuthRepository interface {

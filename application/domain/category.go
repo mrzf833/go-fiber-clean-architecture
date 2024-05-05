@@ -2,6 +2,7 @@ package domain
 
 import (
 	"context"
+	"github.com/gofiber/fiber/v2"
 	"time"
 )
 
@@ -30,4 +31,12 @@ type CategoryRepository interface {
 	Create(ctx context.Context, category Category) (Category, error)
 	Update(ctx context.Context, category Category) (Category, error)
 	Delete(ctx context.Context, id int64) (error)
+}
+
+type CategoryHandler interface {
+	GetByID(c *fiber.Ctx) error
+	GetAll(c *fiber.Ctx) error
+	Create(c *fiber.Ctx) error
+	Update(c *fiber.Ctx) error
+	Delete(c *fiber.Ctx) error
 }

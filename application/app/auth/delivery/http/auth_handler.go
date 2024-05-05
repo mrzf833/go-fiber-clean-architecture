@@ -3,22 +3,20 @@ package http
 import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt/v5"
 	"go-fiber-clean-architecture/application/app/auth/request"
-	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/middleware"
 )
 
 type AuthHandler struct {
 	Validate *validator.Validate
-	ucase domain.AuthUseCase
+	Ucase domain.AuthUseCase
 }
 
 func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *validator.Validate) domain.AuthHandler{
 	handler := &AuthHandler{
 		Validate: validate,
-		ucase: authUseCase,
+		Ucase: authUseCase,
 	}
 
 	// setup routes
@@ -40,7 +38,7 @@ func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 	}
 
 	// mengambil data dari usecase
-	data, err := handler.ucase.Login(c, authCreateRequest)
+	data, err := handler.Ucase.Login(c, authCreateRequest)
 	if err != nil {
 		return err
 	}
@@ -49,19 +47,14 @@ func (handler *AuthHandler) Login(c *fiber.Ctx) error {
 }
 
 func (handler *AuthHandler) User(c *fiber.Ctx) error {
-	user := c.Locals("user").(*jwt.Token)
-	claims := user.Claims.(jwt.MapClaims)
-	return c.SendString("Welcome " + claims["username"].(string))
+	claims := handler.Ucase.User(c)
+	return c.JSON(fiber.Map{
+		"message": "Welcome " + claims["username"].(string),
+	})
 }
 
 func (handler *AuthHandler) Logout(c *fiber.Ctx) error {
-	token := c.Locals("user").(*jwt.Token)
-	claims := token.Claims.(jwt.MapClaims)
-	username := claims["username"]
-
-	// delete token di redis
-	config.RedisDb.Delete(username.(string))
-
+	handler.Ucase.Logout(c)
 	return c.JSON(map[string]any{
 		"message": "Success logout",
 	})

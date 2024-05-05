@@ -17,8 +17,8 @@ type LoginResponse struct {
 	Username string
 }
 
-func LoginAuth(appRun *fiber.App, ch chan string) {
-	body := strings.NewReader(`{"username":"john","password":"doe"}`)
+func LoginAuth(appRun *fiber.App, ch chan string, username string, password string) {
+	body := strings.NewReader(`{"username":"` + username + `","password":"` + password + `"}`)
 	req := httptest.NewRequest(fiber.MethodPost, "/api/login", body)
 	req.Header.Set("Content-Type", "application/json")
 

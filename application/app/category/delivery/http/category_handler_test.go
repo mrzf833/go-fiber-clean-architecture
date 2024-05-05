@@ -9,6 +9,7 @@ import (
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/helper"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"net/http"
 	"net/http/httptest"
@@ -17,6 +18,8 @@ import (
 	"testing"
 )
 var appRun *fiber.App
+var username = "john"
+var password = "doe"
 
 
 func TestMain(m *testing.M) {
@@ -24,13 +27,25 @@ func TestMain(m *testing.M) {
 	fmt.Println("Before Test")
 	// setup app
 	appRun = app.AppInit()
+
+	// create user
+	passwordHash, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	user := domain.Auth{
+		Username: username,
+		Password: string(passwordHash),
+	}
+	// simpan data
+	config.DB.Create(&user)
+
 	// setup token
 	tokenCh := make(chan string)
-	go helper.LoginAuth(appRun, tokenCh)
+	go helper.LoginAuth(appRun, tokenCh, "john", "doe")
 	<-tokenCh
 
 	// run test
 	m.Run()
+
+	defer config.DB.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&domain.Auth{})
 
 	// clean data
 	fmt.Println("After Test")
