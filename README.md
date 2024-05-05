@@ -10,18 +10,18 @@ isi dari docs
 
 disini saya mencoba membuat go clean architecture dengan menggunakan :
 - golang -> require go 1.19 keatas
-- mysql -> selesai
+- mysql -> selesai ✅
 - docker
 - postman -> sambil update (sudah diterapkan)
 - swagger -> sudah package
-- jwt -> sudah package
-- redis -> sudah package
+- jwt -> sudah package ✅
+- redis -> sudah package ✅
 - penerapan queue
 - penerapan cli -> sudah package
 - elastic search -> belum
 - monitoring queue
 - websocket -> belum
-- handle file/image dan menambahkan validation -> selesai
+- handle file/image dan menambahkan validation -> selesai ✅
 
 package yang digunakan :
 - go get github.com/stretchr/testify
