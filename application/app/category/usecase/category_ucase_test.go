@@ -4,9 +4,9 @@ import (
 	"context"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"go-fiber-clean-architecture/application/app/category/mocks"
 	"go-fiber-clean-architecture/application/app/category/usecase"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/domain/mocks"
 	"testing"
 )
 

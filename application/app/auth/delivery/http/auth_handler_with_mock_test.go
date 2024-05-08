@@ -7,10 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	httpDelivery "go-fiber-clean-architecture/application/app/auth/delivery/http"
+	mocks2 "go-fiber-clean-architecture/application/app/auth/mocks"
 	"go-fiber-clean-architecture/application/app/auth/usecase"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/domain/mocks"
 	"go-fiber-clean-architecture/application/helper"
 	"io"
 	"net/http"
@@ -29,7 +29,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 
 	validate := validator.New()
 	t.Run("success", func(t *testing.T) {
-		mockAuthUseCase := new(mocks.AuthUsecase)
+		mockAuthUseCase := new(mocks2.AuthUsecase)
 		mockAuthUseCase.On("Login", mock.AnythingOfType("*fiber.Ctx"), mock.AnythingOfType("request.AuthCreateRequest")).Return(returnAuthUseCase, nil).Once()
 
 
@@ -63,7 +63,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 	})
 
 	t.Run("bad-request", func(t *testing.T) {
-		mockAuthRepository := new(mocks.AuthRepository)
+		mockAuthRepository := new(mocks2.AuthRepository)
 		mockAuthRepository.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(domain.Auth{}, assert.AnError).Once()
 		mockAuthUseCase := usecase.NewAuthUseCase(mockAuthRepository)
 		//mockAuthUseCase.On("Login", mock.AnythingOfType("*fiber.Ctx"), mock.AnythingOfType("request.AuthCreateRequest")).Return(map[string]interface{}{}, assert.AnError).Once()
@@ -99,7 +99,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 
 func TestAuthUserWithMock(t *testing.T) {
 	validate := validator.New()
-	mockAuthUseCase := new(mocks.AuthUsecase)
+	mockAuthUseCase := new(mocks2.AuthUsecase)
 	mockAuthUseCase.On("User", mock.AnythingOfType("*fiber.Ctx")).Return(jwt.MapClaims{"username": "test"}, nil).Once()
 	// buat handler
 	handler := httpDelivery.AuthHandler{
