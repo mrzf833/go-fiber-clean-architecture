@@ -41,3 +41,5 @@ package yang digunakan :
 matiin action save di goland
 
 ter inspirasi dari : https://github.com/bxcodec/go-clean-arch/tree/v3 yang branch v3
+
+arti dari symbol (✅) ini adalah bahwa keterangan tersebut sudah di implementasikan.
