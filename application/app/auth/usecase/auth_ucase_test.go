@@ -53,7 +53,7 @@ func TestLogin(t *testing.T) {
 	t.Run("failed", func(t *testing.T) {
 		// kita akan membuat mock object untuk memanggil method GetByID dari AuthRepository
 		// di on method ini kita akan memanggil method GetByID dari AuthRepository dan parameternya context(mock.anything), username(mock.AnythingOfType("string")) yang dibutuhkan dan return nil dan error
-		mockAuthRepo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(domain.Auth{}, assert.AnError).Once()
+		mockAuthRepo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, assert.AnError).Once()
 		app.Use(func(c *fiber.Ctx) error {
 			// kita membuat object authUcase yang menggunakan NewAuthUseCase dengan parameter mockAuthRepo
 			authUcase := usecase.NewAuthUseCase(mockAuthRepo)

@@ -246,7 +246,7 @@ func TestUpdateCategoryWithMock(t *testing.T) {
 	})
 
 	t.Run("bad-request", func(t *testing.T) {
-		mockCategoryUseCase.On("Update", mock.Anything, mock.AnythingOfType("domain.Category")).Return(mockCategory, assert.AnError).Once()
+		mockCategoryUseCase.On("Update", mock.Anything, mock.AnythingOfType("domain.Category")).Return(nil, assert.AnError).Once()
 		// buat handler
 		handler := httpDelivery.CategoryHandler{
 			CategoryUseCase: mockCategoryUseCase,

@@ -10,7 +10,6 @@ import (
 	mocks2 "go-fiber-clean-architecture/application/app/auth/mocks"
 	"go-fiber-clean-architecture/application/app/auth/usecase"
 	"go-fiber-clean-architecture/application/config"
-	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/helper"
 	"io"
 	"net/http"
@@ -64,9 +63,8 @@ func TestAuthLoginWithMock(t *testing.T) {
 
 	t.Run("bad-request", func(t *testing.T) {
 		mockAuthRepository := new(mocks2.AuthRepository)
-		mockAuthRepository.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(domain.Auth{}, assert.AnError).Once()
+		mockAuthRepository.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, assert.AnError).Once()
 		mockAuthUseCase := usecase.NewAuthUseCase(mockAuthRepository)
-		//mockAuthUseCase.On("Login", mock.AnythingOfType("*fiber.Ctx"), mock.AnythingOfType("request.AuthCreateRequest")).Return(map[string]interface{}{}, assert.AnError).Once()
 		// buat handler
 		handler := httpDelivery.AuthHandler{
 			Ucase: mockAuthUseCase,

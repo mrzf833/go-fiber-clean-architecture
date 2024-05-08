@@ -88,7 +88,7 @@ func TestGetByID(t *testing.T) {
 	t.Run("error-failed", func(t *testing.T) {
 		// kita akan membuat mock object untuk memanggil method GetByID dari CategoryRepository
 		// di on method ini kita akan memanggil method GetByID dari CategoryRepository dan parameternya context(mock.anything), id(mock.AnythingOfType("int64")) yang dibutuhkan dan return nil dan error
-		mockCategoryRepo.On("GetByID", mock.Anything, mock.AnythingOfType("int64")).Return(domain.Category{}, assert.AnError).Once()
+		mockCategoryRepo.On("GetByID", mock.Anything, mock.AnythingOfType("int64")).Return(nil, assert.AnError).Once()
 		// kita membuat object categoryUcase yang menggunakan NewCategoryUseCase dengan parameter mockCategoryRepo
 		categoryUcase := usecase.NewCategoryUseCase(mockCategoryRepo)
 		// kita panggil method GetByID dari categoryUcase
@@ -131,7 +131,7 @@ func TestCreate(t *testing.T) {
 	t.Run("error-failed", func(t *testing.T) {
 		// kita akan membuat mock object untuk memanggil method Create dari CategoryRepository
 		// di on method ini kita akan memanggil method Create dari CategoryRepository dan parameternya context(mock.anything), category(mock.AnythingOfType("domain.Category")) yang dibutuhkan dan return nil dan error
-		mockCategoryRepo.On("Create", mock.Anything, mock.AnythingOfType("domain.Category")).Return(domain.Category{}, assert.AnError).Once()
+		mockCategoryRepo.On("Create", mock.Anything, mock.AnythingOfType("domain.Category")).Return(nil, assert.AnError).Once()
 		// kita membuat object categoryUcase yang menggunakan NewCategoryUseCase dengan parameter mockCategoryRepo
 		categoryUcase := usecase.NewCategoryUseCase(mockCategoryRepo)
 		// kita panggil method Create dari categoryUcase
@@ -192,7 +192,7 @@ func TestUpdate(t *testing.T) {
 		mockCategoryRepo.On("GetByID", mock.Anything, mock.AnythingOfType("int64")).Return(mockCategory, nil).Once()
 		// kita akan membuat mock object untuk memanggil method Update dari CategoryRepository
 		// di on method ini kita akan memanggil method Update dari CategoryRepository dan parameternya context(mock.anything), category(mock.AnythingOfType("domain.Category")) yang dibutuhkan dan return mockCategory dan nil
-		mockCategoryRepo.On("Update", mock.Anything, mock.AnythingOfType("domain.Category")).Return(domain.Category{}, assert.AnError).Once()
+		mockCategoryRepo.On("Update", mock.Anything, mock.AnythingOfType("domain.Category")).Return(nil, assert.AnError).Once()
 		// ------------------------------------------------
 		// kita membuat object categoryUcase yang menggunakan NewCategoryUseCase dengan parameter mockCategoryRepo
 		categoryUcase := usecase.NewCategoryUseCase(mockCategoryRepo)

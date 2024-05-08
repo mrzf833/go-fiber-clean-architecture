@@ -28,3 +28,15 @@ func InterfaceSlice(slice interface{}) []interface{} {
 func GetApplicationPath() string {
 	return helper2.GetRootPath() + "/application"
 }
+
+func GetStroagePath() string {
+	return GetApplicationPath() + "/storage"
+}
+
+func GetStroagePublicPath() string {
+	return GetStroagePath() + "/public"
+}
+
+func GetStroagePrivatePath() string {
+	return GetStroagePath() + "/private"
+}

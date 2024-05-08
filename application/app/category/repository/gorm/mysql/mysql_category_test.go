@@ -1,9 +1,10 @@
-package gorm_mysql
+package gorm_mysql_test
 
 import (
 	"context"
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
+	gorm_mysql "go-fiber-clean-architecture/application/app/category/repository/gorm/mysql"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/helper"
 	"testing"
@@ -33,7 +34,7 @@ func TestGetAll(t *testing.T) {
 		AddRow(mockCategories[1].ID, mockCategories[1].Name, mockCategories[1].CreatedAt, mockCategories[1].UpdatedAt)
 	mock.ExpectQuery("SELECT").WillReturnRows(rows)
 
-	a := NewMysqlCategoryRepository(db)
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
 	categories, err := a.GetAll(context.TODO())
 	assert.NoError(t, err)
 	assert.Len(t, categories, 2)
@@ -54,7 +55,7 @@ func TestGetById_success(t *testing.T) {
 
 	mock.ExpectQuery("WHERE").WillReturnRows(rows)
 
-	a := NewMysqlCategoryRepository(db)
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
 
 	category, err := a.GetByID(context.Background(), mockCategory.ID)
 
@@ -76,7 +77,7 @@ func TestGetById_notFound(t *testing.T) {
 
 	mock.ExpectQuery("WHERE").WillReturnRows(rows)
 
-	a := NewMysqlCategoryRepository(db)
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
 
 	_, err := a.GetByID(context.Background(), mockCategory.ID)
 
@@ -99,7 +100,7 @@ func TestCreate_success(t *testing.T) {
 	mock.ExpectExec(query).WillReturnResult(sqlmock.NewResult(12, 1))
 	mock.ExpectCommit()
 
-	a := NewMysqlCategoryRepository(db)
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
 
 	category, err := a.Create(context.TODO(), cat)
 	assert.NoError(t, err)
@@ -123,7 +124,7 @@ func TestUpdate_success(t *testing.T) {
 	mock.ExpectExec(query).WillReturnResult(sqlmock.NewResult(12, 1))
 	mock.ExpectCommit()
 
-	a := NewMysqlCategoryRepository(db)
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
 
 	category, err := a.Update(context.TODO(), cat)
 	assert.NoError(t, err)
@@ -147,7 +148,7 @@ func TestDelete_success(t *testing.T) {
 	mock.ExpectExec(query).WillReturnResult(sqlmock.NewResult(12, 1))
 	mock.ExpectCommit()
 
-	a := NewMysqlCategoryRepository(db)
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
 
 	err := a.Delete(context.TODO(), cat.ID)
 	assert.NoError(t, err)
