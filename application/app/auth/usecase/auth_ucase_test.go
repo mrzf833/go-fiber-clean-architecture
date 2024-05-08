@@ -2,12 +2,15 @@ package usecase_test
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"go-fiber-clean-architecture/application/app/auth/request"
 	"go-fiber-clean-architecture/application/app/auth/usecase"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/domain/mocks"
+	"go-fiber-clean-architecture/application/helper"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -66,4 +69,65 @@ func TestLogin(t *testing.T) {
 		})
 	})
 }
+
+func TestUser(t *testing.T) {
+	app := fiber.New()
+	// buat mock object
+	mockAuthRepo := new(mocks.AuthRepository)
+	// buat mock data
+	mockAuth := domain.Auth{
+		ID:       1,
+		Username: "johns",
+		Password: "doe",
+	}
+
+	var res jwt.MapClaims
+	// testing login success
+	t.Run("success", func(t *testing.T) {
+		app.Use(func(c *fiber.Ctx) error {
+			c.Locals("user", jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+				"username": mockAuth.Username,
+			}))
+			// kita membuat object authUcase yang menggunakan NewAuthUseCase dengan parameter mockAuthRepo
+			authUcase := usecase.NewAuthUseCase(mockAuthRepo)
+			// kita panggil method GetByID dari authUcase
+			res = authUcase.User(c)
+			return nil
+		})
+		req := httptest.NewRequest(fiber.MethodGet, "/", nil)
+		app.Test(req)
+		assert.Equal(t, mockAuth.Username, res["username"].(string))
+		mockAuthRepo.AssertExpectations(t)
+	})
+}
+
+func TestLogout(t *testing.T) {
+	app := fiber.New()
+	// buat mock object
+	mockAuthRepo := new(mocks.AuthRepository)
+	// buat mock data
+	mockAuth := domain.Auth{
+		ID:       1,
+		Username: "johns",
+		Password: "doe",
+	}
+	helper.ConnectRedis()
+	// testing login success
+	t.Run("success", func(t *testing.T) {
+		app.Use(func(c *fiber.Ctx) error {
+			c.Locals("user", jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+				"username": mockAuth.Username,
+			}))
+			// kita membuat object authUcase yang menggunakan NewAuthUseCase dengan parameter mockAuthRepo
+			authUcase := usecase.NewAuthUseCase(mockAuthRepo)
+			// kita panggil method GetByID dari authUcase
+			authUcase.Logout(c)
+			return nil
+		})
+		req := httptest.NewRequest(fiber.MethodGet, "/", nil)
+		app.Test(req)
+		mockAuthRepo.AssertExpectations(t)
+	})
+}
+
 
