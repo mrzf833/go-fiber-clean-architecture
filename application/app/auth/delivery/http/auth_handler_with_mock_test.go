@@ -31,7 +31,6 @@ func TestAuthLoginWithMock(t *testing.T) {
 		mockAuthUseCase := new(mocks2.AuthUsecase)
 		mockAuthUseCase.On("Login", mock.AnythingOfType("*fiber.Ctx"), mock.AnythingOfType("request.AuthCreateRequest")).Return(returnAuthUseCase, nil).Once()
 
-
 		// buat handler
 		handler := httpDelivery.AuthHandler{
 			Validate: validate,

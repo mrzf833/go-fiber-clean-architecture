@@ -71,7 +71,6 @@ func (handler *FileSaveHandler) Create(c *fiber.Ctx) error {
 	c.BodyParser(&fileSaveCreateRequest)
 	fileSaveCreateRequest.File, _ = c.FormFile("file")
 	err := handler.Validate.Struct(fileSaveCreateRequest)
-
 	if err != nil {
 		return err
 	}
