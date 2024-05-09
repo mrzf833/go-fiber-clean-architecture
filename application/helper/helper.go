@@ -29,14 +29,14 @@ func GetApplicationPath() string {
 	return helper2.GetRootPath() + "/application"
 }
 
-func GetStroagePath() string {
+func GetStoragePath() string {
 	return GetApplicationPath() + "/storage"
 }
 
-func GetStroagePublicPath() string {
-	return GetStroagePath() + "/public"
+func GetStoragePublicPath() string {
+	return GetStoragePath() + "/public"
 }
 
-func GetStroagePrivatePath() string {
-	return GetStroagePath() + "/private"
+func GetStoragePrivatePath() string {
+	return GetStoragePath() + "/private"
 }

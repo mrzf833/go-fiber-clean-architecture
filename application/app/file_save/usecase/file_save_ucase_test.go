@@ -237,7 +237,7 @@ func TestUpdate(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStroagePublicPath()
+		storagePublicPath := helper.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
@@ -309,7 +309,7 @@ func TestUpdate(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStroagePublicPath()
+		storagePublicPath := helper.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
@@ -389,7 +389,7 @@ func TestDelete(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStroagePublicPath()
+		storagePublicPath := helper.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
@@ -438,7 +438,7 @@ func TestDelete(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStroagePublicPath()
+		storagePublicPath := helper.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
