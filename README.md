@@ -16,10 +16,10 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - swagger -> sudah package
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
-- penerapan queue
 - penerapan cli -> sudah package
 - elastic search -> belum
-- monitoring queue (go routine) ⭕️
+- penerapan queue (go routine) ⭕️
+- monitoring queue
 - websocket -> belum
 - handle file/image dan menambahkan validation -> selesai ✅
 
