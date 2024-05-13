@@ -19,7 +19,7 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - penerapan queue
 - penerapan cli -> sudah package
 - elastic search -> belum
-- monitoring queue
+- monitoring queue (go routine) ⭕️
 - websocket -> belum
 - handle file/image dan menambahkan validation -> selesai ✅
 
