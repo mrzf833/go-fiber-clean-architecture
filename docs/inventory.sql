@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: May 02, 2024 at 08:00 PM
+-- Generation Time: May 13, 2024 at 12:07 AM
 -- Server version: 5.7.44
 -- PHP Version: 8.2.12
 
@@ -50,6 +50,19 @@ CREATE TABLE `file_saves` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tracker_category`
+--
+
+CREATE TABLE `tracker_category` (
+                                    `id` int(11) NOT NULL,
+                                    `name` varchar(250) NOT NULL,
+                                    `now` text NOT NULL,
+                                    `end` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -86,6 +99,12 @@ ALTER TABLE `file_saves`
     ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tracker_category`
+--
+ALTER TABLE `tracker_category`
+    ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -106,6 +125,12 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `file_saves`
     MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
+-- AUTO_INCREMENT for table `tracker_category`
+--
+ALTER TABLE `tracker_category`
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `users`

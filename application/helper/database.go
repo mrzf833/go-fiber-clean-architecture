@@ -7,6 +7,7 @@ import (
 	"go-fiber-clean-architecture/application/helper/helper2"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"strconv"
 	"time"
 )
@@ -38,7 +39,9 @@ func ConnectDB() {
 	// mengkonekkan ke database
 	if config.DbDriver == "mysql" {
 		dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", config.DbUser, config.DbPassword, config.DbHost, port, config.DbName)
-		config.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		config.DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent),
+		})
 	}
 	//else if Config("DB_DRIVER") == "postgres" {
 	//	dsn = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Config("DB_HOST"), port, Config("DB_USER"), Config("DB_PASSWORD"), Config("DB_NAME"))

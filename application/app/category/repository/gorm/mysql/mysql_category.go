@@ -55,3 +55,17 @@ func (r *mysqlCategoryRepository) Delete(ctx context.Context, id int64) error {
 	// tanpa pengecekan karena jika data tidak ditemukan maka akan mengembalikan array kosong
 	return err
 }
+
+func (r *mysqlCategoryRepository) CreateAll(ctx context.Context, category []domain.Category) ([]domain.Category, error) {
+	// insert data ke database menggunakan gorm
+	err := r.Db.WithContext(ctx).Create(&category).Error
+	// tanpa pengecekan karena jika data tidak ditemukan maka akan mengembalikan array kosong
+	return category, err
+}
+
+func (r *mysqlCategoryRepository) CreateInBatches(ctx context.Context, category []domain.Category, size int) error {
+	// insert data ke database menggunakan gorm
+	err := r.Db.WithContext(ctx).CreateInBatches(category, size).Error
+	// tanpa pengecekan karena jika data tidak ditemukan maka akan mengembalikan array kosong
+	return err
+}

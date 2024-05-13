@@ -153,3 +153,67 @@ func TestDelete_success(t *testing.T) {
 	err := a.Delete(context.TODO(), cat.ID)
 	assert.NoError(t, err)
 }
+
+func TestCreateAll_success(t *testing.T) {
+	db, mock := helper.NewMockDB()
+
+	now := time.Now()
+	cat := []domain.Category{
+		{
+			Name:      "category 1",
+			CreatedAt: now,
+			UpdatedAt: now,
+		},
+		{
+			Name:      "category 2",
+			CreatedAt: now,
+			UpdatedAt: now,
+		},
+	}
+
+	query := "INSERT INTO `categories`"
+	mock.ExpectBegin()
+	mock.ExpectExec(query).WillReturnResult(sqlmock.NewResult(12, 1))
+	mock.ExpectCommit()
+
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
+
+	category, err := a.CreateAll(context.TODO(), cat)
+	assert.NoError(t, err)
+	assert.Equal(t, int64(12), category[0].ID)
+	assert.Equal(t, int64(13), category[1].ID)
+}
+
+func TestCreateInBatches_success(t *testing.T) {
+	db, mock := helper.NewMockDB()
+
+	now := time.Now()
+	cat := []domain.Category{
+		{
+			Name:      "category 1",
+			CreatedAt: now,
+			UpdatedAt: now,
+		},
+		{
+			Name:      "category 2",
+			CreatedAt: now,
+			UpdatedAt: now,
+		},
+		{
+			Name:      "category 3",
+			CreatedAt: now,
+			UpdatedAt: now,
+		},
+	}
+
+	query := "INSERT INTO `categories`"
+	mock.ExpectBegin()
+	mock.ExpectExec(query).WillReturnResult(sqlmock.NewResult(12, 2))
+	mock.ExpectExec(query).WillReturnResult(sqlmock.NewResult(14, 1))
+	mock.ExpectCommit()
+
+	a := gorm_mysql.NewMysqlCategoryRepository(db)
+
+	err := a.CreateInBatches(context.TODO(), cat, 2)
+	assert.NoError(t, err)
+}

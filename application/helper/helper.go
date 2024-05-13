@@ -2,6 +2,7 @@ package helper
 
 import (
 	"go-fiber-clean-architecture/application/helper/helper2"
+	"log"
 	"reflect"
 )
 
@@ -39,4 +40,10 @@ func GetStoragePublicPath() string {
 
 func GetStoragePrivatePath() string {
 	return GetStoragePath() + "/private"
+}
+
+func Recover()  {
+	if r := recover(); r != nil {
+		log.Print("Recovered from ", r)
+	}
 }

@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"github.com/gofiber/fiber/v2"
+	"io"
 	"time"
 )
 
@@ -22,7 +23,8 @@ type CategoryUseCase interface {
 	GetAll(ctx context.Context) ([]Category, error)
 	Create(ctx context.Context, category Category) (Category, error)
 	Update(ctx context.Context, category Category) (Category, error)
-	Delete(ctx context.Context, id int64) (error)
+	Delete(ctx context.Context, id int64) error
+	CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64)
 }
 
 type CategoryRepository interface {
@@ -31,6 +33,8 @@ type CategoryRepository interface {
 	Create(ctx context.Context, category Category) (Category, error)
 	Update(ctx context.Context, category Category) (Category, error)
 	Delete(ctx context.Context, id int64) (error)
+	CreateAll(ctx context.Context, category []Category) ([]Category, error)
+	CreateInBatches(ctx context.Context, category []Category, size int) error
 }
 
 type CategoryHandler interface {
@@ -39,4 +43,5 @@ type CategoryHandler interface {
 	Create(c *fiber.Ctx) error
 	Update(c *fiber.Ctx) error
 	Delete(c *fiber.Ctx) error
+	CreateWithCsv(c *fiber.Ctx) error
 }

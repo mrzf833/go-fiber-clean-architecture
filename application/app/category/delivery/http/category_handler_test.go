@@ -1,6 +1,7 @@
 package http_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/gofiber/fiber/v2"
@@ -11,11 +12,13 @@ import (
 	"go-fiber-clean-architecture/application/helper"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 )
 var appRun *fiber.App
 var username = "john"
@@ -170,6 +173,7 @@ func TestUpdateCategory(t *testing.T) {
 	category := domain.Category{
 		Name: "Category 1",
 	}
+	config.DB.CreateInBatches(&category, 1)
 	// simpan data
 	config.DB.Create(&category)
 
@@ -281,4 +285,49 @@ func TestDeleteCategory(t *testing.T) {
 
 	// delete data
 	config.DB.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&domain.Category{})
+}
+
+func TestCreateWitchCsvCategory(t *testing.T) {
+	// success test
+	t.Run("success", func(t *testing.T) {
+		// buat request
+		bodyReq := new(bytes.Buffer)
+		// kita akan membuat writer untuk membuat form file
+		writer := multipart.NewWriter(bodyReq)
+		part, _ := writer.CreateFormFile("file", "test.csv")
+		part.Write([]byte("name\ntest22\tTest3"))
+		writer.Close()
+
+		req := httptest.NewRequest(fiber.MethodPost, "/api/category/csv", bodyReq)
+		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Content-Type", writer.FormDataContentType())
+
+		// panggil handler
+		res, err := appRun.Test(req)
+
+		time.Sleep(500 * time.Millisecond)
+		// cek error
+		assert.NoError(t, err)
+		// cek response
+		assert.Equal(t, http.StatusCreated, res.StatusCode)
+	})
+
+	// bad request test
+	t.Run("bad-request", func(t *testing.T) {
+		// buat request
+		req := httptest.NewRequest(fiber.MethodPost, "/api/category/csv", nil)
+		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Content-Type", "application/json")
+
+		// panggil handler
+		res, err := appRun.Test(req)
+		// cek error
+		assert.NoError(t, err)
+		// cek response
+		assert.Equal(t, http.StatusBadRequest, res.StatusCode)
+	})
+
+	// delete data
+	config.DB.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&domain.Category{})
+	config.DB.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&domain.TrackerCategory{})
 }

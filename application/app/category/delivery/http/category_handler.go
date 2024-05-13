@@ -2,8 +2,10 @@ package http
 
 import (
 	"go-fiber-clean-architecture/application/app/category/request"
+	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"strconv"
+	"time"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
@@ -22,9 +24,10 @@ func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase
 	}
 
 	// setup routes
-	app.Get("/:id", handler.GetByID)
 	app.Get("/", handler.GetAll)
 	app.Post("/", handler.Create)
+	app.Post("/csv", handler.CreateWithCsv)
+	app.Get("/:id", handler.GetByID)
 	app.Put("/:id", handler.Update)
 	app.Delete("/:id", handler.Delete)
 
@@ -148,5 +151,37 @@ func (handler *CategoryHandler) Delete(c *fiber.Ctx) error {
 	// return response
 	return c.JSON(map[string]any{
 		"message": "Success delete category",
+	})
+}
+
+func (handler *CategoryHandler) CreateWithCsv(c *fiber.Ctx) error {
+	var categoryCreateCsvRequest request.CategoryCreateCsvRequest
+	// ambil data dari request ke struct
+	categoryCreateCsvRequest.File,_ = c.FormFile("file")
+	c.BodyParser(&categoryCreateCsvRequest)
+	err := handler.Validate.Struct(categoryCreateCsvRequest)
+	if err != nil {
+		return err
+	}
+
+	openFile, err := categoryCreateCsvRequest.File.Open()
+	if err != nil {
+		return err
+	}
+
+	// ini untuk ngetracking berapa lama proses insert data ke database menggunakan go routine dan gorm per batches
+	trackerCategory := domain.TrackerCategory{
+		Name: "Category Berubah",
+		Now: strconv.FormatInt(time.Now().UnixMilli(), 10),
+		End: " ",
+	}
+	config.DB.Create(&trackerCategory)
+
+	//insert data ke database menggunakan usecase
+	go handler.CategoryUseCase.CreateWithCsv(c.Context(), openFile, trackerCategory.ID)
+
+	// return response
+	return c.Status(fiber.StatusCreated).JSON(map[string]any{
+		"message": "Success create category with csv",
 	})
 }

@@ -80,3 +80,27 @@ func (m *CategoryRepository) Delete(ctx context.Context, id int64) error {
 	// pengembalian value dari fungsi Delete
 	return ret.Error(0)
 }
+
+func (m *CategoryRepository) CreateAll(ctx context.Context, category []domain.Category) ([]domain.Category, error) {
+	// pemanggilan fungsi CreateAll dengan parameter ctx dan category menggunakan mock
+	ret := m.Called(ctx, category)
+
+	// pengembalian value dari fungsi CreateAll
+	var r0 []domain.Category
+
+	// jika value yang dikembalikan tidak nil maka value tersebut di assign ke r0
+	if ret.Get(1) == nil {
+		r0 = ret.Get(0).([]domain.Category)
+	}
+
+	// pengembalian value r0 dan error
+	return r0, ret.Error(1)
+}
+
+func (m *CategoryRepository) CreateInBatches(ctx context.Context, category []domain.Category, size int) error {
+	// pemanggilan fungsi CreateInBatches dengan parameter ctx dan category menggunakan mock
+	ret := m.Called(ctx, category, size)
+
+	// pengembalian value dari fungsi CreateInBatches
+	return ret.Error(0)
+}

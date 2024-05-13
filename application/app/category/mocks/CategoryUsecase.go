@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/stretchr/testify/mock"
 	"go-fiber-clean-architecture/application/domain"
+	"io"
 )
 
 type CategoryUsecase struct {
@@ -49,4 +50,8 @@ func (m *CategoryUsecase) Update(ctx context.Context, category domain.Category) 
 func (m *CategoryUsecase) Delete(ctx context.Context, id int64) error {
 	ret := m.Called(ctx, id)
 	return ret.Error(0)
+}
+
+func (m *CategoryUsecase) CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64) {
+	m.MethodCalled("CreateWithCsv", ctx, file, idTrackerCategory)
 }

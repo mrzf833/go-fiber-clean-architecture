@@ -1,15 +1,18 @@
 package http_test
 
 import (
+	"bytes"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	httpDelivery "go-fiber-clean-architecture/application/app/category/delivery/http"
 	"go-fiber-clean-architecture/application/app/category/mocks"
+	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/exception"
 	"go-fiber-clean-architecture/application/helper"
+	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -332,6 +335,94 @@ func TestDeleteCategoryWithMock(t *testing.T) {
 		assert.NoError(t, err)
 		// cek response
 		assert.Equal(t, http.StatusNotFound, res.StatusCode)
+
+		//bytes, err := io.ReadAll(res.Body)
+		//println(string(bytes))
+		mockCategoryUseCase.AssertExpectations(t)
+	})
+}
+
+func TestCreateWithCsvCategoryWithMock(t *testing.T) {
+	mockCategoryUseCase := new(mocks.CategoryUsecase)
+	// buat mock data
+
+	t.Run("success", func(t *testing.T) {
+		db, _ := helper.NewMockDB()
+		validate := validator.New()
+		mockCategoryUseCase.On("CreateWithCsv", mock.Anything, mock.Anything, mock.Anything).Return().Once()
+		// buat handler
+		handler := httpDelivery.CategoryHandler{
+			CategoryUseCase: mockCategoryUseCase,
+			 Validate: validate,
+		}
+
+		// buat context
+		c := helper.TestApp(helper.HelperRouter{
+			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
+				helper.NewCustomValidation(validate, ctx)
+				return ctx.Next()
+			}, handler.CreateWithCsv},
+			Method: fiber.MethodPost,
+			Path: "/category/csv",
+		})
+
+
+		config.DB = db
+		// buat request file
+		bodyReq := new(bytes.Buffer)
+		// kita akan membuat writer untuk membuat form file
+		writer := multipart.NewWriter(bodyReq)
+		part, _ := writer.CreateFormFile("file", "test.csv")
+		part.Write([]byte("name\ntest22"))
+		writer.Close()
+
+		// buat request
+		req := httptest.NewRequest(fiber.MethodPost, "/category/csv", bodyReq)
+		req.Header.Set("Content-Type", writer.FormDataContentType())
+
+
+		// panggil handler untuk di testing
+		res, err := c.Test(req)
+
+		// cek error
+		assert.NoError(t, err)
+		//bytes, err := io.ReadAll(res.Body)
+		//println(string(bytes))
+		// cek response
+		assert.Equal(t, http.StatusCreated, res.StatusCode)
+
+		mockCategoryUseCase.AssertExpectations(t)
+	})
+
+	t.Run("bad-request", func(t *testing.T) {
+		validate := validator.New()
+		db, _ := helper.NewMockDB()
+		// buat handler
+		handler := httpDelivery.CategoryHandler{
+			CategoryUseCase: mockCategoryUseCase,
+			Validate: validate,
+		}
+		// buat context
+		c := helper.TestApp(helper.HelperRouter{
+			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
+				helper.NewCustomValidation(validate, ctx)
+				return ctx.Next()
+			}, handler.CreateWithCsv},
+			Method: fiber.MethodPost,
+			Path: "/category/csv",
+		})
+
+		config.DB = db
+		// buat request
+		req := httptest.NewRequest(fiber.MethodPost, "/category/csv", nil)
+
+
+		// panggil handler untuk di testing
+		res, err := c.Test(req)
+		// cek error
+		assert.NoError(t, err)
+		// cek response
+		assert.Equal(t, http.StatusBadRequest, res.StatusCode)
 
 		//bytes, err := io.ReadAll(res.Body)
 		//println(string(bytes))

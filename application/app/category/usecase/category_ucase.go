@@ -2,7 +2,15 @@ package usecase
 
 import (
 	"context"
+	"encoding/csv"
+	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
+	"go-fiber-clean-architecture/application/helper"
+	"io"
+	"log"
+	"strconv"
+	"strings"
+	"time"
 )
 
 type categoryUseCase struct {
@@ -58,4 +66,87 @@ func (uc *categoryUseCase) Delete(ctx context.Context, id int64) error {
 	// penghapusan data
 	err = uc.CategoryRepo.Delete(ctx, id)
 	return err
+}
+
+//func (uc *categoryUseCase) CreateWithCsv(ctx context.Context, file io.Reader) error {
+//	reader := csv.NewReader(file)
+//	reader.FieldsPerRecord = -1 // Allow variable number of fields
+//	data, err := reader.ReadAll()
+//	if err != nil {
+//		return err
+//	}
+//
+//	// skip data field csv
+//	data = data[1:]
+//
+//	totalRecords := len(data)
+//
+//	batchGoRoutineSize := 4000
+//
+//	for i := 0; i < totalRecords; i += batchGoRoutineSize {
+//		end := i + batchGoRoutineSize
+//
+//		if end > totalRecords {
+//			end = totalRecords
+//		}
+//
+//		batch := data[i:end]
+//		// do something
+//		go uc.createWithBatch(ctx, batch, 1000)
+//	}
+//
+//	return err
+//}
+
+func (uc *categoryUseCase) CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64) {
+	defer helper.Recover()
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = -1 // Allow variable number of fields
+	data, err := reader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// skip data field csv
+	data = data[1:]
+
+	totalRecords := len(data)
+
+	batchGoRoutineSize := 4000
+
+	for i := 0; i < totalRecords; i += batchGoRoutineSize {
+		end := i + batchGoRoutineSize
+
+		if end > totalRecords {
+			end = totalRecords
+		}
+
+		batch := data[i:end]
+		// do something
+		go uc.createWithBatch(ctx, batch, 1000, idTrackerCategory)
+	}
+}
+
+func (uc *categoryUseCase)createWithBatch(ctx context.Context, data [][]string, size int, idTrackerCategory int64)  {
+	defer helper.Recover()
+	var categoryRecords []domain.Category
+	for _, record := range data {
+		rows := strings.Split(record[0], ";")
+		dataPush := domain.Category{
+			Name: rows[0],
+		}
+		categoryRecords = append(categoryRecords, dataPush)
+	}
+
+	err := uc.CategoryRepo.CreateInBatches(ctx, categoryRecords, size)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	config.DB.Updates(&domain.TrackerCategory{
+		ID: idTrackerCategory,
+		Name: "Category Berubah",
+		Now: "",
+		End: strconv.FormatInt(time.Now().UnixMilli(), 10),
+	})
 }
