@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"encoding/json"
+	"context"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
 	"go-fiber-clean-architecture/application/app/auth/request"
@@ -14,17 +14,19 @@ import (
 
 type authUseCase struct {
 	authRepo domain.AuthRepository
+	userRepo domain.UserRepository
 }
 
-func NewAuthUseCase(authRepo domain.AuthRepository) domain.AuthUseCase {
+func NewAuthUseCase(authRepo domain.AuthRepository, userRepo domain.UserRepository) domain.AuthUseCase {
 	return &authUseCase{
 		authRepo: authRepo,
+		userRepo: userRepo,
 	}
 }
 
 func (uc *authUseCase) Login(c *fiber.Ctx, request request.AuthCreateRequest) (map[string]interface{}, error) {
 	// mengambil data dari repository
-	user, err := uc.authRepo.GetByUsername(c.Context(), request.Username)
+	user, err := uc.userRepo.GetByUsername(c.Context(), request.Username)
 	// ini adalah contoh penggunaan error handling
 	// tapi ini sebenarnya tidak perlu karena error handling sudah di handle di layer delivery
 	if err != nil {
@@ -56,15 +58,19 @@ func (uc *authUseCase) Login(c *fiber.Ctx, request request.AuthCreateRequest) (m
 	if err != nil {
 		return map[string]interface{}{}, exception.ErrInternalServerError
 	}
-	// data auth ke redis
-	dataAuth := map[string]any{
-		"username": user.Username,
-		"token": t,
-		"expire": time.Now().Add(config.ExpireToken),
+	// data auth ke penyimpanan
+	dataAuth := domain.Auth{
+		Username: user.Username,
+		Token: t,
+		Expire: time.Now().Add(config.ExpireToken),
 	}
-	dataAuthByte, _ := json.Marshal(dataAuth)
+
+
 	// store data ke redis
-	config.RedisDb.Set(user.Username, dataAuthByte, config.ExpireToken)
+	err = uc.authRepo.CreateToken(context.TODO(), user.Username, dataAuth, config.ExpireToken)
+	if err != nil {
+		return map[string]interface{}{}, err
+	}
 
 	return map[string]interface{}{
 		"token": t,
@@ -85,5 +91,5 @@ func (uc *authUseCase) Logout(c *fiber.Ctx) {
 	username := claims["username"]
 
 	// delete token di redis
-	config.RedisDb.Delete(username.(string))
+	uc.authRepo.DeleteToken(context.TODO(), username.(string))
 }

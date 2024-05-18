@@ -7,8 +7,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	httpDelivery "go-fiber-clean-architecture/application/app/auth/delivery/http"
-	mocks2 "go-fiber-clean-architecture/application/app/auth/mocks"
+	mocksAuth "go-fiber-clean-architecture/application/app/auth/mocks"
 	"go-fiber-clean-architecture/application/app/auth/usecase"
+	mocksUser "go-fiber-clean-architecture/application/app/user/mocks"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/helper"
 	"io"
@@ -28,7 +29,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 
 	validate := validator.New()
 	t.Run("success", func(t *testing.T) {
-		mockAuthUseCase := new(mocks2.AuthUsecase)
+		mockAuthUseCase := new(mocksAuth.AuthUsecase)
 		mockAuthUseCase.On("Login", mock.AnythingOfType("*fiber.Ctx"), mock.AnythingOfType("request.AuthCreateRequest")).Return(returnAuthUseCase, nil).Once()
 
 		// buat handler
@@ -61,9 +62,13 @@ func TestAuthLoginWithMock(t *testing.T) {
 	})
 
 	t.Run("bad-request", func(t *testing.T) {
-		mockAuthRepository := new(mocks2.AuthRepository)
-		mockAuthRepository.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, assert.AnError).Once()
-		mockAuthUseCase := usecase.NewAuthUseCase(mockAuthRepository)
+		mockAuthRepository := new(mocksAuth.AuthRepository)
+		mockUserRepository := new(mocksUser.UserRepository)
+
+		mockUserRepository.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, assert.AnError).Once()
+		mockAuthRepository.On("CreateToken", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("domain.Auth"), mock.AnythingOfType("time.Duration")).Return(assert.AnError).Once()
+
+		mockAuthUseCase := usecase.NewAuthUseCase(mockAuthRepository, mockUserRepository)
 		// buat handler
 		handler := httpDelivery.AuthHandler{
 			Ucase: mockAuthUseCase,
@@ -96,7 +101,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 
 func TestAuthUserWithMock(t *testing.T) {
 	validate := validator.New()
-	mockAuthUseCase := new(mocks2.AuthUsecase)
+	mockAuthUseCase := new(mocksAuth.AuthUsecase)
 	mockAuthUseCase.On("User", mock.AnythingOfType("*fiber.Ctx")).Return(jwt.MapClaims{"username": "test"}, nil).Once()
 	// buat handler
 	handler := httpDelivery.AuthHandler{

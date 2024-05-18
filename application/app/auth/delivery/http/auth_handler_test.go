@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 	appRun = app.AppInit()
 
 	passwordHash, _ := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	user := domain.Auth{
+	user := domain.User{
 		Username: username,
 		Password: string(passwordHash),
 	}

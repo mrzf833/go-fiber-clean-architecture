@@ -1,4 +1,4 @@
-package gorm_mysql
+package mysql
 
 import (
 	"context"
@@ -13,7 +13,7 @@ import (
 func TestGetByUsername_success(t *testing.T) {
 	db, mock := helper.NewMockDB()
 
-	mockAuth := domain.Auth{
+	mockUser := domain.User{
 		ID:   1,
 		Username: "John",
 		Password: "Doe",
@@ -22,22 +22,22 @@ func TestGetByUsername_success(t *testing.T) {
 	}
 
 	rows := sqlmock.NewRows([]string{"id", "username", "password", "created_at", "updated_at"}).
-		AddRow(mockAuth.ID, mockAuth.Username, mockAuth.Password, mockAuth.CreatedAt, mockAuth.UpdatedAt)
+		AddRow(mockUser.ID, mockUser.Username, mockUser.Password, mockUser.CreatedAt, mockUser.UpdatedAt)
 
 	mock.ExpectQuery("WHERE").WillReturnRows(rows)
 
-	a := NewMysqlAuthRepository(db)
+	a := NewMysqlUserRepository(db)
 
-	auth, err := a.GetByUsername(context.Background(), mockAuth.Username)
+	auth, err := a.GetByUsername(context.Background(), mockUser.Username)
 
 	assert.NoError(t, err)
-	assert.Equal(t, auth.Username, mockAuth.Username)
+	assert.Equal(t, auth.Username, mockUser.Username)
 }
 
 func TestGetByUsername_notFound(t *testing.T) {
 	db, mock := helper.NewMockDB()
 
-	mockAuth := domain.Auth{
+	mockUser := domain.User{
 		ID:   1,
 		Username: "John",
 		Password: "Doe",
@@ -49,9 +49,9 @@ func TestGetByUsername_notFound(t *testing.T) {
 
 	mock.ExpectQuery("WHERE").WillReturnRows(rows)
 
-	a := NewMysqlAuthRepository(db)
+	a := NewMysqlUserRepository(db)
 
-	_, err := a.GetByUsername(context.Background(), mockAuth.Username)
+	_, err := a.GetByUsername(context.Background(), mockUser.Username)
 
 	assert.Error(t, err)
 	assert.Nil(t, mock.ExpectationsWereMet())
