@@ -42,41 +42,54 @@ func (uc *authUseCase) Login(c *fiber.Ctx, request request.AuthCreateRequest) (m
 			"message": "username or password is wrong",
 		})
 	}
-
-	// set expire token
-	day := time.Now().Add(config.ExpireToken).Unix()
-	// membuat token
-	claims := jwt.MapClaims{
-		"username": user.Username,
-		"exp": day,
-	}
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	// Generate encoded token and send it as response.
-	t, err := token.SignedString([]byte(config.JwtKey))
-	if err != nil {
-		return map[string]interface{}{}, exception.ErrInternalServerError
-	}
 	// data auth ke penyimpanan
 	dataAuth := domain.Auth{
 		Username: user.Username,
-		Token: t,
-		Expire: time.Now().Add(config.ExpireToken),
 	}
 
+	duration := config.ExpireToken
 
+	// generate token
+	token, err := uc.generateToken(map[string]any{
+		"username": user.Username,
+	}, duration)
+	if err != nil {
+		return map[string]interface{}{}, err
+	}
+
+	// set token ke dataAuth
+	dataAuth.Token = token
 	// store data ke redis
-	err = uc.authRepo.CreateToken(context.TODO(), user.Username, dataAuth, config.ExpireToken)
+	data, err := uc.authRepo.CreateToken(context.TODO(), dataAuth, duration)
 	if err != nil {
 		return map[string]interface{}{}, err
 	}
 
 	return map[string]interface{}{
-		"token": t,
-		"expire": day,
+		"token": data.Token,
+		"expire": data.Expire,
 		"username": user.Username,
 	}, nil
+}
+
+func (uc *authUseCase) generateToken(data map[string]any, duration time.Duration) (string, error) {
+	// set expire token
+	day := time.Now().Add(duration).Unix()
+	// membuat token
+	claims := jwt.MapClaims{
+		"username": data["username"],
+		"exp": day,
+	}
+
+	// generate encoded token and send it as response.
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	t, err := token.SignedString([]byte(config.JwtKey))
+	if err != nil {
+		return "", exception.ErrInternalServerError
+	}
+
+	// set data auth token ke struct
+	return t, nil
 }
 
 func (uc *authUseCase) User(c *fiber.Ctx) jwt.MapClaims{

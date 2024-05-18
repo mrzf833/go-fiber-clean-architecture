@@ -9,8 +9,9 @@ import (
 )
 
 type Auth struct {
+	ID int64 `json:"id"`
 	Username string `json:"username"`
-	Token string `json:"'token'"`
+	Token string `json:"token"`
 	Expire time.Time `json:"expire"`
 }
 
@@ -21,7 +22,7 @@ type AuthUseCase interface {
 }
 
 type AuthRepository interface {
-	CreateToken(ctx context.Context, username string, auth Auth, exp time.Duration) error
+	CreateToken(ctx context.Context, data Auth, exp time.Duration) (Auth, error)
 	DeleteToken(ctx context.Context, username string) error
 }
 

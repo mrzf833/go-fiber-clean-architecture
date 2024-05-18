@@ -18,10 +18,6 @@ func JwtMiddleware() fiber.Handler {
 	})
 }
 
-//func AuthMiddleware() fiber.Handler {
-//	return JwtMiddleware()
-//}
-
 func AuthMiddleware() []fiber.Handler {
 	return []fiber.Handler{
 		JwtMiddleware(),CheckTokenOnRedis,
