@@ -8,7 +8,7 @@ import (
 	"go-fiber-clean-architecture/application/app/file_save/mocks"
 	"go-fiber-clean-architecture/application/app/file_save/usecase"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"mime/multipart"
 	"net/http/httptest"
 	"os"
@@ -181,7 +181,7 @@ func TestCreate(t *testing.T) {
 		assert.NoError(t, err)
 		// kita akan membandingkan hasil res dengan mockFileSave bahwa hasilnya sama
 
-		applicationPath := helper.GetApplicationPath()
+		applicationPath := utils.GetApplicationPath()
 		err = os.Remove(applicationPath + "/storage/public/" + res.Name)
 		assert.NoError(t, err)
 		// kita akan memastikan bahwa mockFileSaveRepo sudah dipanggil sesuai dengan ekspektasi
@@ -237,12 +237,12 @@ func TestUpdate(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStoragePublicPath()
+		storagePublicPath := utils.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
 		mockFileSave.Name = "/upload_file/" +  filepath.Base(temp.Name())
-		db, mockDb := helper.NewMockDB()
+		db, mockDb := utils.NewMockDB()
 		// ----------------------------- kenapa ini ada 3 on method? -----------------------------
 		// karena di update method kita melakukan pengecekan apakah data ada atau tidak menggunakan method GetByID dan GetDb
 		// baru kemudian kita melakukan update data menggunakan method Update
@@ -309,12 +309,12 @@ func TestUpdate(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStoragePublicPath()
+		storagePublicPath := utils.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
 		mockFileSave.Name = "/upload_file/" +  filepath.Base(temp.Name())
-		db, mockDb := helper.NewMockDB()
+		db, mockDb := utils.NewMockDB()
 		// ----------------------------- kenapa ini ada 3 on method? -----------------------------
 		// karena di update method kita melakukan pengecekan apakah data ada atau tidak menggunakan method GetByID dan GetDb
 		// baru kemudian kita melakukan update data menggunakan method Update
@@ -376,7 +376,7 @@ func TestUpdate(t *testing.T) {
 func TestDelete(t *testing.T) {
 	// buat mock object
 	mockFileSaveRepo := new(mocks.FileSaveRepository)
-	db, mockDb := helper.NewMockDB()
+	db, mockDb := utils.NewMockDB()
 	// buat mock data
 
 	// testing Delete success
@@ -389,7 +389,7 @@ func TestDelete(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStoragePublicPath()
+		storagePublicPath := utils.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
@@ -438,7 +438,7 @@ func TestDelete(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStoragePublicPath()
+		storagePublicPath := utils.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 

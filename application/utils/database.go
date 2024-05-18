@@ -1,10 +1,10 @@
-package helper
+package utils
 
 import (
 	"flag"
 	"fmt"
 	"go-fiber-clean-architecture/application/config"
-	"go-fiber-clean-architecture/application/helper/helper2"
+	"go-fiber-clean-architecture/application/utils/helper2"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

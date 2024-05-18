@@ -6,13 +6,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	gorm_mysql "go-fiber-clean-architecture/application/app/category/repository/gorm/mysql"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"testing"
 	"time"
 )
 
 func TestGetAll(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	mockCategories := []domain.Category{
 		{
@@ -41,7 +41,7 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestGetById_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	mockCategory := domain.Category{
 		ID:   1,
@@ -64,7 +64,7 @@ func TestGetById_success(t *testing.T) {
 }
 
 func TestGetById_notFound(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	mockCategory := domain.Category{
 		ID:   1,
@@ -86,7 +86,7 @@ func TestGetById_notFound(t *testing.T) {
 }
 
 func TestCreate_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	now := time.Now()
 	cat := domain.Category{
@@ -109,7 +109,7 @@ func TestCreate_success(t *testing.T) {
 
 
 func TestUpdate_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	now := time.Now()
 	cat := domain.Category{
@@ -133,7 +133,7 @@ func TestUpdate_success(t *testing.T) {
 
 
 func TestDelete_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	now := time.Now()
 	cat := domain.Category{
@@ -155,7 +155,7 @@ func TestDelete_success(t *testing.T) {
 }
 
 func TestCreateAll_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	now := time.Now()
 	cat := []domain.Category{
@@ -185,7 +185,7 @@ func TestCreateAll_success(t *testing.T) {
 }
 
 func TestCreateInBatches_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	now := time.Now()
 	cat := []domain.Category{

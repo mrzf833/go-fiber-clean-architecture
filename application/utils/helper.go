@@ -1,7 +1,7 @@
-package helper
+package utils
 
 import (
-	"go-fiber-clean-architecture/application/helper/helper2"
+	"go-fiber-clean-architecture/application/utils/helper2"
 	"log"
 	"reflect"
 )

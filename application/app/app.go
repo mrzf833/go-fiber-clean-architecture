@@ -8,8 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/exception"
-	"go-fiber-clean-architecture/application/helper"
 	application "go-fiber-clean-architecture/application/router"
+	"go-fiber-clean-architecture/application/utils"
 )
 
 func AppInit() *fiber.App {
@@ -26,19 +26,19 @@ func AppInit() *fiber.App {
 	})
 	// add custom validation
 	app.Use(func(ctx *fiber.Ctx) error {
-		helper.NewCustomValidation(validate, ctx)
+		utils.NewCustomValidation(validate, ctx)
 		return ctx.Next()
 	})
 	// setup middleware
 	app.Use(cors.New(), recover.New())
 
 	// connect to database
-	helper.ConnectDB()
+	utils.ConnectDB()
 	// connect to redis
-	helper.ConnectRedis()
+	utils.ConnectRedis()
 
 	// setup static file
-	app.Static("/static", helper.GetApplicationPath() + "/storage/public")
+	app.Static("/static", utils.GetApplicationPath() + "/storage/public")
 	// setup routes
 	application.SetupRouters(app, validate)
 

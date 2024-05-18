@@ -10,7 +10,7 @@ import (
 	"go-fiber-clean-architecture/application/app/file_save/mocks"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/exception"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -42,7 +42,7 @@ func TestGetAllFileSaveWithMock(t *testing.T) {
 
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.GetAll},
 			Method: fiber.MethodGet,
 			Path: "/file-save",
@@ -78,7 +78,7 @@ func TestGetByIdFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.GetByID},
 			Method: fiber.MethodGet,
 			Path: "/file-save/:id",
@@ -106,7 +106,7 @@ func TestGetByIdFileSaveWithMock(t *testing.T) {
 			FileSaveUseCase: mockFileSaveUseCase,
 		}
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.GetByID},
 			Method: fiber.MethodGet,
 			Path: "/file-save/:id",
@@ -149,9 +149,9 @@ func TestCreateFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
-				helper.NewCustomValidation(validate, ctx)
+				utils.NewCustomValidation(validate, ctx)
 				return ctx.Next()
 			}, handler.Create},
 			Method: fiber.MethodPost,
@@ -191,9 +191,9 @@ func TestCreateFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		app := helper.TestApp(helper.HelperRouter{
+		app := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
-				helper.NewCustomValidation(validate, ctx)
+				utils.NewCustomValidation(validate, ctx)
 				return ctx.Next()
 			}, handler.Create},
 			Method: fiber.MethodPost,
@@ -238,9 +238,9 @@ func TestUpdateFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
-				helper.NewCustomValidation(validate, ctx)
+				utils.NewCustomValidation(validate, ctx)
 				return ctx.Next()
 			}, handler.Update},
 			Method: fiber.MethodPost,
@@ -280,9 +280,9 @@ func TestUpdateFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
-				helper.NewCustomValidation(validate, ctx)
+				utils.NewCustomValidation(validate, ctx)
 				return ctx.Next()
 			}, handler.Update},
 			Method:   fiber.MethodPost,
@@ -317,7 +317,7 @@ func TestDeleteFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Delete},
 			Method: fiber.MethodDelete,
 			Path: "/file-save/:id",
@@ -346,7 +346,7 @@ func TestDeleteFileSaveWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Delete},
 			Method: fiber.MethodDelete,
 			Path: "/file-save/:id",

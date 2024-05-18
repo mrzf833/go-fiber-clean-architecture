@@ -9,7 +9,7 @@ import (
 	"go-fiber-clean-architecture/application/app"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"io"
@@ -44,7 +44,7 @@ func TestMain(m *testing.M) {
 
 	// setup token
 	tokenCh := make(chan string)
-	go helper.LoginAuth(appRun, tokenCh, "john", "doe")
+	go utils.LoginAuth(appRun, tokenCh, "john", "doe")
 	<-tokenCh
 
 	// run test
@@ -68,7 +68,7 @@ func TestGetAllFileSave(t *testing.T) {
 
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/file-save", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 
 		// panggil handler
 		res, err := appRun.Test(req)
@@ -104,7 +104,7 @@ func TestGetByIdFileSave(t *testing.T) {
 		id := strconv.FormatInt(fileSave.ID, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/file-save/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 
 		// panggil handler
 		res, err := appRun.Test(req)
@@ -120,7 +120,7 @@ func TestGetByIdFileSave(t *testing.T) {
 		id := strconv.FormatInt(fileSave.ID + 1, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/file-save/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 
 		// panggil handler
 		res, err := appRun.Test(req)
@@ -146,7 +146,7 @@ func TestCreateFileSave(t *testing.T) {
 		writer.Close()
 
 		req := httptest.NewRequest(fiber.MethodPost, "/api/file-save", bodyReq)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", writer.FormDataContentType())
 
 		// panggil handler
@@ -164,7 +164,7 @@ func TestCreateFileSave(t *testing.T) {
 			json.Unmarshal(bytesBody, &resBody)
 			// get data response body data
 			resData := resBody["data"].(map[string]interface{})
-			storagePublicPath := helper.GetStoragePublicPath()
+			storagePublicPath := utils.GetStoragePublicPath()
 			err = os.Remove(storagePublicPath + resData["name"].(string))
 			assert.NoError(t, err)
 		}()
@@ -174,7 +174,7 @@ func TestCreateFileSave(t *testing.T) {
 	t.Run("bad-request", func(t *testing.T) {
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPost, "/api/file-save", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -197,7 +197,7 @@ func TestUpdateFileSave(t *testing.T) {
 			Name: "",
 		}
 
-		storagePublicPath := helper.GetStoragePublicPath()
+		storagePublicPath := utils.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
@@ -216,7 +216,7 @@ func TestUpdateFileSave(t *testing.T) {
 		writer.Close()
 
 		req := httptest.NewRequest(fiber.MethodPost, "/api/file-save/" + id, bodyReq)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", writer.FormDataContentType())
 
 		// panggil handler
@@ -249,7 +249,7 @@ func TestUpdateFileSave(t *testing.T) {
 		id := strconv.FormatInt(fileSave.ID, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPost, "/api/file-save/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -279,7 +279,7 @@ func TestUpdateFileSave(t *testing.T) {
 		writer.Close()
 
 		req := httptest.NewRequest(fiber.MethodPost, "/api/file-save/" + id, bodyReq)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", writer.FormDataContentType())
 
 		// panggil handler
@@ -302,7 +302,7 @@ func TestDeleteFileSave(t *testing.T) {
 		fileSave := domain.FileSave{
 			Name: "",
 		}
-		storagePublicPath := helper.GetStoragePublicPath()
+		storagePublicPath := utils.GetStoragePublicPath()
 		temp, err := os.CreateTemp(storagePublicPath+"/upload_file", "")
 		assert.NoError(t, err)
 
@@ -313,7 +313,7 @@ func TestDeleteFileSave(t *testing.T) {
 		id := strconv.FormatInt(fileSave.ID, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodDelete, "/api/file-save/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -335,7 +335,7 @@ func TestDeleteFileSave(t *testing.T) {
 		id := strconv.FormatInt(fileSave.ID + 1, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodDelete, "/api/file-save/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler

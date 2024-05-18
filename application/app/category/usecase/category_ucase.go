@@ -5,7 +5,7 @@ import (
 	"encoding/csv"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"io"
 	"log"
 	"strconv"
@@ -99,7 +99,7 @@ func (uc *categoryUseCase) Delete(ctx context.Context, id int64) error {
 //}
 
 func (uc *categoryUseCase) CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64) {
-	defer helper.Recover()
+	defer utils.Recover()
 	reader := csv.NewReader(file)
 	reader.FieldsPerRecord = -1 // Allow variable number of fields
 	data, err := reader.ReadAll()
@@ -128,7 +128,7 @@ func (uc *categoryUseCase) CreateWithCsv(ctx context.Context, file io.Reader, id
 }
 
 func (uc *categoryUseCase)createWithBatch(ctx context.Context, data [][]string, size int, idTrackerCategory int64)  {
-	defer helper.Recover()
+	defer utils.Recover()
 	var categoryRecords []domain.Category
 	for _, record := range data {
 		rows := strings.Split(record[0], ";")

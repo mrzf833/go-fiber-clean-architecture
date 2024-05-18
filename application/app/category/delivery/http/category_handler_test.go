@@ -9,7 +9,7 @@ import (
 	"go-fiber-clean-architecture/application/app"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"mime/multipart"
@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 
 	// setup token
 	tokenCh := make(chan string)
-	go helper.LoginAuth(appRun, tokenCh, "john", "doe")
+	go utils.LoginAuth(appRun, tokenCh, "john", "doe")
 	<-tokenCh
 
 	// run test
@@ -66,7 +66,7 @@ func TestGetAllCategory(t *testing.T) {
 
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/category", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 
 		// panggil handler
 		res, err := appRun.Test(req)
@@ -102,7 +102,7 @@ func TestGetByIdCategory(t *testing.T) {
 		id := strconv.FormatInt(category.ID, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/category/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 
 		// panggil handler
 		res, err := appRun.Test(req)
@@ -118,7 +118,7 @@ func TestGetByIdCategory(t *testing.T) {
 		id := strconv.FormatInt(category.ID + 1, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/category/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 
 		// panggil handler
 		res, err := appRun.Test(req)
@@ -138,7 +138,7 @@ func TestCreateCategory(t *testing.T) {
 		// buat request
 		reqBody := strings.NewReader(`{"Name": "Test"}`)
 		req := httptest.NewRequest(fiber.MethodPost, "/api/category", reqBody)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -153,7 +153,7 @@ func TestCreateCategory(t *testing.T) {
 	t.Run("bad-request", func(t *testing.T) {
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPost, "/api/category", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -185,7 +185,7 @@ func TestUpdateCategory(t *testing.T) {
 		changeName := "Test Berubah"
 		reqBody := strings.NewReader(`{"Name": "`+changeName+`"}`)
 		req := httptest.NewRequest(fiber.MethodPut, "/api/category/" + id, reqBody)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -208,7 +208,7 @@ func TestUpdateCategory(t *testing.T) {
 		id := strconv.FormatInt(category.ID, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPut, "/api/category/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -226,7 +226,7 @@ func TestUpdateCategory(t *testing.T) {
 		// buat request
 		requestBody := strings.NewReader(`{"Name": "Test Berubah"}`)
 		req := httptest.NewRequest(fiber.MethodPut, "/api/category/" + id, requestBody)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -255,7 +255,7 @@ func TestDeleteCategory(t *testing.T) {
 		id := strconv.FormatInt(category.ID, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodDelete, "/api/category/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -272,7 +272,7 @@ func TestDeleteCategory(t *testing.T) {
 		id := strconv.FormatInt(category.ID + 1, 10)
 		// buat request
 		req := httptest.NewRequest(fiber.MethodDelete, "/api/category/" + id, nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -299,7 +299,7 @@ func TestCreateWitchCsvCategory(t *testing.T) {
 		writer.Close()
 
 		req := httptest.NewRequest(fiber.MethodPost, "/api/category/csv", bodyReq)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", writer.FormDataContentType())
 
 		// panggil handler
@@ -316,7 +316,7 @@ func TestCreateWitchCsvCategory(t *testing.T) {
 	t.Run("bad-request", func(t *testing.T) {
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPost, "/api/category/csv", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler

@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/gofiber/storage/redis/v3"
-	"go-fiber-clean-architecture/application/helper/helper2"
+	"go-fiber-clean-architecture/application/utils/helper2"
 )
 
 var (

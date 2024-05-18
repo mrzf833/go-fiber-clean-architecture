@@ -11,7 +11,7 @@ import (
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/exception"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -43,7 +43,7 @@ func TestGetAllCategoryWithMock(t *testing.T) {
 
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.GetAll},
 			Method: fiber.MethodGet,
 			Path: "/category",
@@ -79,7 +79,7 @@ func TestGetByIdCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.GetByID},
 			Method: fiber.MethodGet,
 			Path: "/category/:id",
@@ -107,7 +107,7 @@ func TestGetByIdCategoryWithMock(t *testing.T) {
 			CategoryUseCase: mockCategoryUseCase,
 		}
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.GetByID},
 			Method: fiber.MethodGet,
 			Path: "/category/:id",
@@ -150,7 +150,7 @@ func TestCreateCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Create},
 			Method: fiber.MethodPost,
 			Path: "/category",
@@ -181,7 +181,7 @@ func TestCreateCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Create},
 			Method: fiber.MethodPost,
 			Path: "/category",
@@ -224,7 +224,7 @@ func TestUpdateCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Update},
 			Method: fiber.MethodPut,
 			Path: "/category/:id",
@@ -257,7 +257,7 @@ func TestUpdateCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Update},
 			Method:   fiber.MethodPut,
 			Path:     "/category/:id",
@@ -291,7 +291,7 @@ func TestDeleteCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Delete},
 			Method: fiber.MethodDelete,
 			Path: "/category/:id",
@@ -320,7 +320,7 @@ func TestDeleteCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Delete},
 			Method: fiber.MethodDelete,
 			Path: "/category/:id",
@@ -347,7 +347,7 @@ func TestCreateWithCsvCategoryWithMock(t *testing.T) {
 	// buat mock data
 
 	t.Run("success", func(t *testing.T) {
-		db, _ := helper.NewMockDB()
+		db, _ := utils.NewMockDB()
 		validate := validator.New()
 		mockCategoryUseCase.On("CreateWithCsv", mock.Anything, mock.Anything, mock.Anything).Return().Once()
 		// buat handler
@@ -357,9 +357,9 @@ func TestCreateWithCsvCategoryWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
-				helper.NewCustomValidation(validate, ctx)
+				utils.NewCustomValidation(validate, ctx)
 				return ctx.Next()
 			}, handler.CreateWithCsv},
 			Method: fiber.MethodPost,
@@ -396,16 +396,16 @@ func TestCreateWithCsvCategoryWithMock(t *testing.T) {
 
 	t.Run("bad-request", func(t *testing.T) {
 		validate := validator.New()
-		db, _ := helper.NewMockDB()
+		db, _ := utils.NewMockDB()
 		// buat handler
 		handler := httpDelivery.CategoryHandler{
 			CategoryUseCase: mockCategoryUseCase,
 			Validate: validate,
 		}
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{func(ctx *fiber.Ctx) error {
-				helper.NewCustomValidation(validate, ctx)
+				utils.NewCustomValidation(validate, ctx)
 				return ctx.Next()
 			}, handler.CreateWithCsv},
 			Method: fiber.MethodPost,

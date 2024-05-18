@@ -11,7 +11,7 @@ import (
 	"go-fiber-clean-architecture/application/app/auth/usecase"
 	mocksUser "go-fiber-clean-architecture/application/app/user/mocks"
 	"go-fiber-clean-architecture/application/config"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -38,7 +38,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 			Ucase: mockAuthUseCase,
 		}
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Login},
 			Method: fiber.MethodPost,
 			Path: "/login",
@@ -76,7 +76,7 @@ func TestAuthLoginWithMock(t *testing.T) {
 		}
 
 		// buat context
-		c := helper.TestApp(helper.HelperRouter{
+		c := utils.TestApp(utils.HelperRouter{
 			Handlers: []fiber.Handler{handler.Login},
 			Method:   fiber.MethodPost,
 			Path:     "/login",
@@ -109,7 +109,7 @@ func TestAuthUserWithMock(t *testing.T) {
 		Ucase: mockAuthUseCase,
 	}
 	// buat context
-	c := helper.TestApp(helper.HelperRouter{
+	c := utils.TestApp(utils.HelperRouter{
 		Handlers: []fiber.Handler{handler.User},
 		Method: fiber.MethodGet,
 		Path: "/user",

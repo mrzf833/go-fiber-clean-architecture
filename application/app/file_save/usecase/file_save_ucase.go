@@ -3,7 +3,7 @@ package usecase
 import (
 	"github.com/gofiber/fiber/v2"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"gorm.io/gorm"
 	"os"
 	"path/filepath"
@@ -45,10 +45,10 @@ func (uc *fileSaveUseCase) Create(c *fiber.Ctx, fileSave domain.FileSave) (domai
 	}
 
 	// Save file to root directory:
-	applicationPath := helper.GetApplicationPath()
+	applicationPath := utils.GetApplicationPath()
 	nameUnix := strconv.FormatInt(time.Now().UnixMicro(), 10)
 	fileName := nameUnix + filepath.Ext(file.Filename)
-	err = helper.SaveFile(c, file, applicationPath+"/storage/public/upload_file", fileName)
+	err = utils.SaveFile(c, file, applicationPath+"/storage/public/upload_file", fileName)
 	if err != nil {
 		return domain.FileSave{}, err
 	}
@@ -79,12 +79,12 @@ func (uc *fileSaveUseCase) Update(c *fiber.Ctx, fileSave domain.FileSave) (domai
 	err = uc.fileSaveRepo.GetDb().Transaction(func(tx *gorm.DB) error {
 
 		// Save file to root directory:
-		applicationPath := helper.GetApplicationPath()
+		applicationPath := utils.GetApplicationPath()
 		nameUnix := strconv.FormatInt(time.Now().UnixMicro(), 10)
 		// set file name and path
 		fileName := nameUnix + filepath.Ext(file.Filename)
 		// save file new
-		err = helper.SaveFile(c, file, applicationPath+"/storage/public/upload_file", fileName)
+		err = utils.SaveFile(c, file, applicationPath+"/storage/public/upload_file", fileName)
 		if err != nil {
 			return err
 		}
@@ -131,7 +131,7 @@ func (uc *fileSaveUseCase) Delete(ctx *fiber.Ctx, id int64) error {
 			return err
 		}
 
-		applicationPath := helper.GetApplicationPath()
+		applicationPath := utils.GetApplicationPath()
 		err = os.Remove(applicationPath + "/storage/public" + fileBefore.Name)
 		if err != nil {
 			return err

@@ -5,13 +5,13 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/stretchr/testify/assert"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"testing"
 	"time"
 )
 
 func TestGetByUsername_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	mockUser := domain.User{
 		ID:   1,
@@ -35,7 +35,7 @@ func TestGetByUsername_success(t *testing.T) {
 }
 
 func TestGetByUsername_notFound(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 
 	mockUser := domain.User{
 		ID:   1,

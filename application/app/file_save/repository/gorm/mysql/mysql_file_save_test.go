@@ -6,14 +6,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	gorm_mysql "go-fiber-clean-architecture/application/app/file_save/repository/gorm/mysql"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"net/http/httptest"
 	"testing"
 	"time"
 )
 
 func TestGetAll(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 	app := fiber.New()
 
 	mockFileSaves := []domain.FileSave{
@@ -51,7 +51,7 @@ func TestGetAll(t *testing.T) {
 }
 
 func TestGetById_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 	app := fiber.New()
 
 	mockFileSave := domain.FileSave{
@@ -81,7 +81,7 @@ func TestGetById_success(t *testing.T) {
 }
 
 func TestGetById_notFound(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 	app := fiber.New()
 
 	mockFileSave := domain.FileSave{
@@ -110,7 +110,7 @@ func TestGetById_notFound(t *testing.T) {
 }
 
 func TestCreate_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 	app := fiber.New()
 
 	now := time.Now()
@@ -139,7 +139,7 @@ func TestCreate_success(t *testing.T) {
 }
 
 func TestUpdate_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 	app := fiber.New()
 
 	now := time.Now()
@@ -170,7 +170,7 @@ func TestUpdate_success(t *testing.T) {
 }
 
 func TestDelete_success(t *testing.T) {
-	db, mock := helper.NewMockDB()
+	db, mock := utils.NewMockDB()
 	app := fiber.New()
 
 	now := time.Now()

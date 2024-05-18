@@ -7,7 +7,7 @@ import (
 	"go-fiber-clean-architecture/application/app"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/helper"
+	"go-fiber-clean-architecture/application/utils"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"net/http"
@@ -35,7 +35,7 @@ func TestMain(m *testing.M) {
 	config.DB.Create(&user)
 
 	tokenCh := make(chan string)
-	go helper.LoginAuth(appRun, tokenCh, username, password)
+	go utils.LoginAuth(appRun, tokenCh, username, password)
 	<-tokenCh
 
 	// run test
@@ -82,7 +82,7 @@ func TestAuthUser(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		// buat request
 		req := httptest.NewRequest(fiber.MethodGet, "/api/user", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
@@ -113,7 +113,7 @@ func TestAuthLogout(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 		// buat request
 		req := httptest.NewRequest(fiber.MethodPost, "/api/logout", nil)
-		req.Header.Set("Authorization", "Bearer " + helper.Token)
+		req.Header.Set("Authorization", "Bearer " + utils.Token)
 		req.Header.Set("Content-Type", "application/json")
 
 		// panggil handler
