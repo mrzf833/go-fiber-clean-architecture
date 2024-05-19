@@ -24,6 +24,7 @@ type AuthUseCase interface {
 type AuthRepository interface {
 	CreateToken(ctx context.Context, data Auth, exp time.Duration) (Auth, error)
 	DeleteToken(ctx context.Context, username string) error
+	GetToken(ctx context.Context, username string) (Auth, error)
 }
 
 type AuthHandler interface {

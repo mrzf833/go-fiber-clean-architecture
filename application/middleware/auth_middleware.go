@@ -4,7 +4,10 @@ import (
 	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v5"
+	"go-fiber-clean-architecture/application/app/auth/repository/redis"
 	"go-fiber-clean-architecture/application/config"
+	"go-fiber-clean-architecture/application/domain"
+	"time"
 )
 
 func JwtMiddleware() fiber.Handler {
@@ -18,7 +21,12 @@ func JwtMiddleware() fiber.Handler {
 	})
 }
 
+var authRepository domain.AuthRepository
 func AuthMiddleware() []fiber.Handler {
+	if authRepository == nil {
+		authRepository = redis.NewRedisAuthRepository(config.RedisDb)
+	}
+
 	return []fiber.Handler{
 		JwtMiddleware(),CheckTokenOnRedis,
 	}
@@ -30,12 +38,9 @@ func CheckTokenOnRedis(c *fiber.Ctx) error {
 	username := claims["username"]
 
 	// get token from redis
-	dataTokenByte, err := config.RedisDb.Get(username.(string))
-	if err != nil {
-		return err
-	}
+	dataToken, _ := authRepository.GetToken(c.Context(), username.(string))
 
-	if len(dataTokenByte) > 0 {
+	if dataToken.Token == token.Raw && dataToken.Expire.After(time.Now()) {
 		return c.Next()
 	}
 	return c.Status(401).JSON(fiber.Map{
