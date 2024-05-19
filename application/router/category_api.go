@@ -15,8 +15,16 @@ func categoryRouterApi(api fiber.Router, validate *validator.Validate)  {
 	categoryRepository := gorm_mysql.NewMysqlCategoryRepository(config.DB)
 	// setup category usecase
 	categoryUseCase := usecase.NewCategoryUseCase(categoryRepository)
-	// setup category router
+	// setup category handler
+	handler := http.NewCategoryHandler(categoryUseCase, validate)
+
+	// setup routes
 	// with middleware auth jwt
 	categoryApi := api.Group("/category", middleware.AuthMiddleware()...)
-	http.NewCategoryHandler(categoryApi, categoryUseCase, validate)
+	categoryApi.Get("/", handler.GetAll)
+	categoryApi.Post("/", handler.Create)
+	categoryApi.Post("/csv", handler.CreateWithCsv)
+	categoryApi.Get("/:id", handler.GetByID)
+	categoryApi.Put("/:id", handler.Update)
+	categoryApi.Delete("/:id", handler.Delete)
 }

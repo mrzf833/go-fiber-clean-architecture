@@ -5,7 +5,6 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"go-fiber-clean-architecture/application/app/auth/request"
 	"go-fiber-clean-architecture/application/domain"
-	"go-fiber-clean-architecture/application/middleware"
 )
 
 type AuthHandler struct {
@@ -13,18 +12,11 @@ type AuthHandler struct {
 	Ucase domain.AuthUseCase
 }
 
-func NewAuthHandler(app fiber.Router, authUseCase domain.AuthUseCase, validate *validator.Validate) domain.AuthHandler{
-	handler := &AuthHandler{
+func NewAuthHandler(authUseCase domain.AuthUseCase, validate *validator.Validate) domain.AuthHandler{
+	return &AuthHandler{
 		Validate: validate,
 		Ucase: authUseCase,
 	}
-
-	// setup routes
-	app.Post("/login", handler.Login)
-	app.Get("/user", append(middleware.AuthMiddleware(), handler.User)...)
-	app.Post("/logout", append(middleware.AuthMiddleware(), handler.Logout)...)
-
-	return handler
 }
 
 func (handler *AuthHandler) Login(c *fiber.Ctx) error {

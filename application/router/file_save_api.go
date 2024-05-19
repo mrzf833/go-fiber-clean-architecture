@@ -15,8 +15,16 @@ func fileSaveRouterApi(api fiber.Router, validate *validator.Validate)  {
 	fileSaveRepository := gorm_mysql.NewMysqlFileSaveRepository(config.DB)
 	// setup category usecase
 	categoryUseCase := usecase.NewFileSaveUseCase(fileSaveRepository)
-	// setup category router
+	// setup category handler
+	handler := http.NewFileSaveHandler(categoryUseCase, validate)
+
+
+	// setup routes
 	// with middleware auth jwt
 	fileSaveApi := api.Group("/file-save", middleware.AuthMiddleware()...)
-	http.NewFileSaveHandler(fileSaveApi, categoryUseCase, validate)
+	fileSaveApi.Get("/:id", handler.GetByID)
+	fileSaveApi.Get("/", handler.GetAll)
+	fileSaveApi.Post("/", handler.Create)
+	fileSaveApi.Post("/:id", handler.Update)
+	fileSaveApi.Delete("/:id", handler.Delete)
 }

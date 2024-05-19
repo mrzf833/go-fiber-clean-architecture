@@ -17,21 +17,11 @@ type CategoryHandler struct {
 	Validate        *validator.Validate
 }
 
-func NewCategoryHandler(app fiber.Router, categoryUseCase domain.CategoryUseCase, validate *validator.Validate) domain.CategoryHandler {
-	handler := &CategoryHandler{
+func NewCategoryHandler(categoryUseCase domain.CategoryUseCase, validate *validator.Validate) domain.CategoryHandler {
+	return &CategoryHandler{
 		CategoryUseCase: categoryUseCase,
 		Validate:        validate,
 	}
-
-	// setup routes
-	app.Get("/", handler.GetAll)
-	app.Post("/", handler.Create)
-	app.Post("/csv", handler.CreateWithCsv)
-	app.Get("/:id", handler.GetByID)
-	app.Put("/:id", handler.Update)
-	app.Delete("/:id", handler.Delete)
-
-	return handler
 }
 
 func (handler *CategoryHandler) GetByID(c *fiber.Ctx) error {

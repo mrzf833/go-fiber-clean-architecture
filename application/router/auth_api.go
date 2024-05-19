@@ -8,6 +8,7 @@ import (
 	"go-fiber-clean-architecture/application/app/auth/usecase"
 	gorm_mysql "go-fiber-clean-architecture/application/app/user/repository/gorm/mysql"
 	"go-fiber-clean-architecture/application/config"
+	"go-fiber-clean-architecture/application/middleware"
 )
 
 func authRouterApi(api fiber.Router, validate *validator.Validate)  {
@@ -17,5 +18,10 @@ func authRouterApi(api fiber.Router, validate *validator.Validate)  {
 	// setup category usecase
 	authUseCase := usecase.NewAuthUseCase(authRepository, userRepository)
 	// setup category router
-	http.NewAuthHandler(api, authUseCase,validate)
+	handler := http.NewAuthHandler(authUseCase,validate)
+
+	// setup routes
+	api.Post("/login", handler.Login)
+	api.Get("/user", append(middleware.AuthMiddleware(), handler.User)...)
+	api.Post("/logout", append(middleware.AuthMiddleware(), handler.Logout)...)
 }
