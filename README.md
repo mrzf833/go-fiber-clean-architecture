@@ -28,7 +28,7 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - swagger -> sudah package
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
-- penerapan cli -> sudah package
+- penerapan cli (cobra) -> sudah package
 - elastic search -> belum
 - penerapan queue (go routine) ⭕️
 - monitoring queue
