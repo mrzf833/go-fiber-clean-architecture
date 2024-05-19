@@ -1,3 +1,12 @@
+Cara menggunakan
+
+- clone project ini
+- cd go-fiber-clean-architecture (masuk ke folder project)
+- go mod download
+- cp .env-example .env
+- isi semua .env yang di perlukan
+- go run application/main.go
+
 isi dari docs
 
 - spec api
