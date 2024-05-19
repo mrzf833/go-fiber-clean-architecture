@@ -5,6 +5,7 @@ Cara menggunakan
 - go mod download
 - cp .env-example .env
 - isi semua .env yang di perlukan
+- import sqlnya untuk db dev, dan db testnya (ada di folder docs)
 - go run application/main.go
 
 isi dari docs
