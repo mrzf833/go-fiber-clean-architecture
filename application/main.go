@@ -4,6 +4,6 @@ import (
 	"go-fiber-clean-architecture/application/app"
 )
 
-func main()  {
+func main() {
 	app.RunServer()
 }

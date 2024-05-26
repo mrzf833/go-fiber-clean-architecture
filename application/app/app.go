@@ -36,6 +36,8 @@ func AppInit() *fiber.App {
 	utils.ConnectDB()
 	// connect to redis
 	utils.ConnectRedis()
+	// create client queue
+	utils.SetClientQueue()
 
 	// setup static file
 	app.Static("/static", utils.GetApplicationPath() + "/storage/public")
