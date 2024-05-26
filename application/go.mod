@@ -1,4 +1,4 @@
-module go-fiber-clean-architecture
+module go-fiber-clean-architecture/application
 
 go 1.21
 

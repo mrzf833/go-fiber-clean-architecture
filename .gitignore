@@ -1,4 +1,4 @@
-.env
+application/.env
 /application/storage/private
 /application/storage/public
 /application/tmp
