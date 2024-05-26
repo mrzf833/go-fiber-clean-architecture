@@ -23,16 +23,16 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - mysql -> selesai ✅
 - hot reload menggunakan air -> selesai ✅
 - docker
-- logging (3)
+- logging (1)
 - postman -> sambil update (sudah diterapkan)
 - swagger -> sudah package
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
-- penerapan cli (cobra) -> sudah package (4)
+- penerapan cli (cobra) -> sudah package (2)
 - elastic search -> belum
 - go routine with csv data -> selesai ✅
-- penerapan queue -> ⭕️  (1)
-- monitoring queue (2)
+- penerapan queue -> selesai ✅
+- monitoring queue -> selesai ✅
 - websocket -> belum
 - handle file/image dan menambahkan validation -> selesai ✅
 
@@ -50,7 +50,8 @@ package yang digunakan :
 - go install github.com/gofiber/cli/fiber@latest
 - go get github.com/joho/godotenv
 - go get github.com/DATA-DOG/go-sqlmock
-- go get github.com/golang-queue/queue
+- go get -u github.com/hibiken/asynq
+- go get github.com/hibiken/asynq
 
 matiin action save di goland
 
