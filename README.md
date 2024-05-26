@@ -10,11 +10,11 @@ Cara menggunakan
 
 isi dari docs
 
-- spec api
-- isi sql default
-- postman
-- cara penggunaan api
-- cara penggunaan docker
+- spec api 
+- isi sql default ✅
+- postman ✅
+- cara penggunaan api ⭕️
+- cara penggunaan docker ⭕️
 
 
 
