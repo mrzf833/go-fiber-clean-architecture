@@ -3,6 +3,8 @@ package usecase
 import (
 	"context"
 	"encoding/csv"
+	"fmt"
+	job_redis "go-fiber-clean-architecture/application/app/category/job/redis"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/utils"
@@ -68,36 +70,6 @@ func (uc *categoryUseCase) Delete(ctx context.Context, id int64) error {
 	return err
 }
 
-//func (uc *categoryUseCase) CreateWithCsv(ctx context.Context, file io.Reader) error {
-//	reader := csv.NewReader(file)
-//	reader.FieldsPerRecord = -1 // Allow variable number of fields
-//	data, err := reader.ReadAll()
-//	if err != nil {
-//		return err
-//	}
-//
-//	// skip data field csv
-//	data = data[1:]
-//
-//	totalRecords := len(data)
-//
-//	batchGoRoutineSize := 4000
-//
-//	for i := 0; i < totalRecords; i += batchGoRoutineSize {
-//		end := i + batchGoRoutineSize
-//
-//		if end > totalRecords {
-//			end = totalRecords
-//		}
-//
-//		batch := data[i:end]
-//		// do something
-//		go uc.createWithBatch(ctx, batch, 1000)
-//	}
-//
-//	return err
-//}
-
 func (uc *categoryUseCase) CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64) {
 	defer utils.Recover()
 	reader := csv.NewReader(file)
@@ -149,4 +121,42 @@ func (uc *categoryUseCase)createWithBatch(ctx context.Context, data [][]string, 
 		Now: "",
 		End: strconv.FormatInt(time.Now().UnixMilli(), 10),
 	})
+}
+
+func (uc *categoryUseCase) CreateWithCsvQueue(ctx context.Context, file io.Reader) error {
+	reader := csv.NewReader(file)
+	reader.FieldsPerRecord = -1 // Allow variable number of fields
+	data, err := reader.ReadAll()
+	if err != nil {
+		return err
+	}
+
+	// skip data field csv
+	data = data[1:]
+
+	totalRecords := len(data)
+
+	batchGoRoutineSize := 4000
+
+	for i := 0; i < totalRecords; i += batchGoRoutineSize {
+		end := i + batchGoRoutineSize
+
+		if end > totalRecords {
+			end = totalRecords
+		}
+
+		batch := data[i:end]
+		// do something
+		task, err := job_redis.NewCategoryCreateWithCsvQueue(batch, 1000)
+		if err != nil {
+			log.Printf("error on line 152 : %s", err)
+		}
+		info, err := config.CientQueue.Enqueue(task)
+		if err != nil {
+			fmt.Println("error on line 158 : ", err)
+		}
+		log.Printf("enqueued task: id=%s queue=%s", info.ID, info.Queue)
+	}
+
+	return nil
 }

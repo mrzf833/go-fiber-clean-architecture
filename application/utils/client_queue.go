@@ -26,9 +26,9 @@ func NewClientQueueRedis() *asynq.Client {
 	client := asynq.NewClient(asynq.RedisClientOpt{
 		Addr: config.QueueHost + ":" + config.QueuePort,
 		DB: queueDb,
+		Username: config.QueueUsername,
+		Password: config.QueuePassword,
 	})
-
-	defer client.Close()
 
 	return client
 }

@@ -1,6 +1,7 @@
 package http
 
 import (
+	"fmt"
 	"go-fiber-clean-architecture/application/app/category/request"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
@@ -173,5 +174,34 @@ func (handler *CategoryHandler) CreateWithCsv(c *fiber.Ctx) error {
 	// return response
 	return c.Status(fiber.StatusCreated).JSON(map[string]any{
 		"message": "Success create category with csv",
+	})
+}
+
+func (handler *CategoryHandler) CreateWithCsvQueue(c *fiber.Ctx) error {
+	var categoryCreateCsvRequest request.CategoryCreateCsvRequest
+	// ambil data dari request ke struct
+	categoryCreateCsvRequest.File,_ = c.FormFile("file")
+	c.BodyParser(&categoryCreateCsvRequest)
+	err := handler.Validate.Struct(categoryCreateCsvRequest)
+	if err != nil {
+		return err
+	}
+
+	openFile, err := categoryCreateCsvRequest.File.Open()
+	if err != nil {
+		return err
+	}
+
+	//insert data ke database menggunakan usecase
+	err = handler.CategoryUseCase.CreateWithCsvQueue(c.Context(), openFile)
+
+	if err != nil{
+		fmt.Println("disini")
+		return err
+	}
+
+	// return response
+	return c.Status(fiber.StatusCreated).JSON(map[string]any{
+		"message": "Success create category with csv on queue",
 	})
 }

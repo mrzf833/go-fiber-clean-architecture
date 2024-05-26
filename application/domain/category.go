@@ -25,6 +25,7 @@ type CategoryUseCase interface {
 	Update(ctx context.Context, category Category) (Category, error)
 	Delete(ctx context.Context, id int64) error
 	CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64)
+	CreateWithCsvQueue(ctx context.Context, file io.Reader) error
 }
 
 type CategoryRepository interface {
@@ -44,4 +45,5 @@ type CategoryHandler interface {
 	Update(c *fiber.Ctx) error
 	Delete(c *fiber.Ctx) error
 	CreateWithCsv(c *fiber.Ctx) error
+	CreateWithCsvQueue(c *fiber.Ctx) error
 }

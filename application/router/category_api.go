@@ -24,6 +24,7 @@ func categoryRouterApi(api fiber.Router, validate *validator.Validate)  {
 	categoryApi.Get("/", handler.GetAll)
 	categoryApi.Post("/", handler.Create)
 	categoryApi.Post("/csv", handler.CreateWithCsv)
+	categoryApi.Post("/csv/queue", handler.CreateWithCsvQueue)
 	categoryApi.Get("/:id", handler.GetByID)
 	categoryApi.Put("/:id", handler.Update)
 	categoryApi.Delete("/:id", handler.Delete)

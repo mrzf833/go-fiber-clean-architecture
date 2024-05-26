@@ -1,17 +1,39 @@
 package main
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
+	"flag"
 	"github.com/hibiken/asynq"
+	job_redis "go-fiber-clean-architecture/application/app/category/job/redis"
+	gorm_mysql "go-fiber-clean-architecture/application/app/category/repository/gorm/mysql"
+	"go-fiber-clean-architecture/application/config"
+	"go-fiber-clean-architecture/application/utils"
+	"go-fiber-clean-architecture/application/utils/helper2"
 	"log"
+	"strconv"
 )
 
 func main()  {
-	example()
+	if flag.Lookup("test.v") != nil {
+		config.QueueDb     = helper2.GetEnv("QUEUE_DB_TEST", "2")
+		config.QueueHost   = helper2.GetEnv("QUEUE_HOST_TEST", "localhost")
+		config.QueuePort   = helper2.GetEnv("QUEUE_PORT_TEST", "6379")
+		config.QueueUsername = helper2.GetEnv("QUEUE_USERNAME_TEST", "")
+		config.QueuePassword = helper2.GetEnv("QUEUE_PASSWORD_TEST", "")
+	}
+
+	// convert string to int select db
+	queueDb,err := strconv.Atoi(config.QueueDb)
+	if err != nil {
+		panic("failed to convert db queue redis to int ")
+	}
+
 	srv := asynq.NewServer(
-		asynq.RedisClientOpt{Addr: "localhost:6379", DB: 2},
+		asynq.RedisClientOpt{
+			Addr: config.QueueHost + ":" + config.QueuePort,
+			DB: queueDb,
+			Username: config.QueueUsername,
+			Password: config.QueuePassword,
+		},
 		asynq.Config{
 			// Specify how many concurrent workers to use
 			Concurrency: 10,
@@ -27,62 +49,16 @@ func main()  {
 
 	// mux maps a type to a handler
 	mux := asynq.NewServeMux()
-	//mux.HandleFunc(ExampleTask, HandleTaskExample)
-	//mux.Handle(tasks.TypeImageResize, tasks.NewImageProcessor())
-	mux.HandleFunc(TypeEmailDelivery, HandleEmailDeliveryTask)
-	// ...register other handlers...
 
-	fmt.Println(srv)
+	// connect db
+	utils.ConnectDB()
+
+	// setup category repository for queue category
+	repositoryCatgeory := gorm_mysql.NewMysqlCategoryRepository(config.DB)
+	queueCategory := job_redis.NewQueueCategory(repositoryCatgeory)
+	mux.HandleFunc(job_redis.TypeCategoryWithCsvQueue, queueCategory.HandleCategoryCreateWithCsvQueue)
 
 	if err := srv.Run(mux); err != nil {
 		log.Fatalf("could not run server: %v", err)
 	}
 }
-
-type EmailDeliveryPayload struct {
-	UserID     int
-	TemplateID string
-}
-
-func HandleEmailDeliveryTask(ctx context.Context, t *asynq.Task) error {
-	var p EmailDeliveryPayload
-	if err := json.Unmarshal(t.Payload(), &p); err != nil {
-		return fmt.Errorf("json.Unmarshal failed: %v: %w", err, asynq.SkipRetry)
-	}
-	log.Printf("Sending Email to User: user_id=%d, template_id=%s", p.UserID, p.TemplateID)
-	// Email delivery code ...
-	return nil
-}
-
-func example()  {
-	client := asynq.NewClient(asynq.RedisClientOpt{
-		Addr: "localhost:6379",
-		DB: 2,
-	})
-
-	defer client.Close()
-
-	task, err := NewEmailDeliveryTask(42, "welcome_email")
-	if err != nil {
-		log.Fatalf("could not create task: %v", err)
-	}
-
-	info, err := client.Enqueue(task)
-	if err != nil {
-		log.Fatalf("could not enqueue task: %v", err)
-	}
-	log.Printf("enqueued task: id=%s queue=%s", info.ID, info.Queue)
-}
-
-func NewEmailDeliveryTask(userID int, tmplID string) (*asynq.Task, error) {
-	payload, err := json.Marshal(EmailDeliveryPayload{UserID: userID, TemplateID: tmplID})
-	if err != nil {
-		return nil, err
-	}
-	return asynq.NewTask(TypeEmailDelivery, payload), nil
-}
-
-const (
-	ExampleTask   = "message:deliver"
-	TypeEmailDelivery   = "email:deliver"
-)
