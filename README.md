@@ -21,6 +21,7 @@ isi dari docs
 disini saya mencoba membuat go clean architecture dengan menggunakan :
 - golang -> require go 1.19 keatas
 - mysql -> selesai ✅
+- hot reload (air) -> selesai ✅
 - hot reload menggunakan air
 - docker
 - logging
