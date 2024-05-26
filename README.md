@@ -49,7 +49,8 @@ package yang digunakan :
 - go get github.com/gofiber/contrib/swagger
 - go install github.com/gofiber/cli/fiber@latest
 - go get github.com/joho/godotenv
--  go get github.com/DATA-DOG/go-sqlmock
+- go get github.com/DATA-DOG/go-sqlmock
+- go get github.com/golang-queue/queue
 
 matiin action save di goland
 
