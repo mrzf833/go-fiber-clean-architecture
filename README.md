@@ -30,7 +30,8 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - redis -> sudah package ✅
 - penerapan cli (cobra) -> sudah package (4)
 - elastic search -> belum
-- penerapan queue (go routine) ⭕️ (1)
+- go routine with csv data -> selesai ✅
+- penerapan queue -> ⭕️  (1)
 - monitoring queue (2)
 - websocket -> belum
 - handle file/image dan menambahkan validation -> selesai ✅
