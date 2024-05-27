@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
+	log "github.com/sirupsen/logrus"
 	"go-fiber-clean-architecture/application/config"
 )
 
@@ -49,6 +50,7 @@ func HandleError(c *fiber.Ctx, err error) error {
 	if config.AppMode == "development"{
 		message = err.Error()
 	}
+	log.Error(err)
 	return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 		"message": message,
 	})

@@ -1,7 +1,6 @@
 package http
 
 import (
-	"fmt"
 	"go-fiber-clean-architecture/application/app/category/request"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
@@ -196,7 +195,6 @@ func (handler *CategoryHandler) CreateWithCsvQueue(c *fiber.Ctx) error {
 	err = handler.CategoryUseCase.CreateWithCsvQueue(c.Context(), openFile)
 
 	if err != nil{
-		fmt.Println("disini")
 		return err
 	}
 

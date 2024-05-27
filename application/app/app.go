@@ -13,6 +13,8 @@ import (
 )
 
 func AppInit() *fiber.App {
+	// setup logger
+	utils.SetLogger()
 	// validate
 	validate := validator.New(validator.WithRequiredStructEnabled())
 	// setup application in main.go

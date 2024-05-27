@@ -55,3 +55,8 @@ func (m *CategoryUsecase) Delete(ctx context.Context, id int64) error {
 func (m *CategoryUsecase) CreateWithCsv(ctx context.Context, file io.Reader, idTrackerCategory int64) {
 	m.MethodCalled("CreateWithCsv", ctx, file, idTrackerCategory)
 }
+
+func (m *CategoryUsecase) CreateWithCsvQueue(ctx context.Context, file io.Reader) error {
+	ret := m.Called(ctx, file)
+	return ret.Error(0)
+}

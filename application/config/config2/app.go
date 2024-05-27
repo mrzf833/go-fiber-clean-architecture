@@ -4,4 +4,4 @@ package config2
 // karena main.go akan dijadikan sebagai acuan root path
 // main.go ada di folder application jadinya isinya application
 // kalau nama foldernya diganti jadi inventory, maka isinya inventory
-const ProjectDirName = "application"
+const ProjectDirName = "go-fiber-clean-architecture"

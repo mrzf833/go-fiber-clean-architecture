@@ -5,9 +5,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/hibiken/asynq"
+	log "github.com/sirupsen/logrus"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/utils"
-	"log"
 	"strings"
 )
 
@@ -19,12 +19,13 @@ type CategoryWithCsvQueue struct {
 const TypeCategoryWithCsvQueue = "category_with_csv_queue"
 
 func NewCategoryCreateWithCsvQueue(data [][]string, size int) (*asynq.Task, error) {
-	payload, err := json.Marshal(CategoryWithCsvQueue{
+	payload, err := json.Marshal(&CategoryWithCsvQueue{
 		Data: data,
 		Size: size,
 	})
 
 	if err != nil {
+		log.Error(err)
 		return nil, err
 	}
 
@@ -42,7 +43,8 @@ func NewQueueCategory(repo domain.CategoryRepository) *QueueCategory {
 func (q *QueueCategory) HandleCategoryCreateWithCsvQueue(ctx context.Context, t *asynq.Task) error {
 	var payload CategoryWithCsvQueue
 	if err := json.Unmarshal(t.Payload(), &payload); err != nil {
-		return fmt.Errorf("json.Unmarshal failed on HandleCategoryCreateWithCsvQueue : %v: %w", err, asynq.SkipRetry)
+		log.Errorf("json.Unmarshal failed on HandleCategoryCreateWithCsvQueue : %v: %v", err, asynq.SkipRetry)
+		return err
 	}
 
 	defer utils.Recover()
@@ -57,9 +59,10 @@ func (q *QueueCategory) HandleCategoryCreateWithCsvQueue(ctx context.Context, t 
 
 	err := q.repo.CreateInBatches(ctx, categoryRecords, payload.Size)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
+		return err
 	}
 
-	log.Println("Success create category with csv queue")
+	fmt.Println("Success create category with csv queue")
 	return nil
 }

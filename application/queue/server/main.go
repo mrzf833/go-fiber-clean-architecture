@@ -3,16 +3,18 @@ package main
 import (
 	"flag"
 	"github.com/hibiken/asynq"
+	log "github.com/sirupsen/logrus"
 	job_redis "go-fiber-clean-architecture/application/app/category/job/redis"
 	gorm_mysql "go-fiber-clean-architecture/application/app/category/repository/gorm/mysql"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/utils"
 	"go-fiber-clean-architecture/application/utils/helper2"
-	"log"
 	"strconv"
 )
 
 func main()  {
+	utils.SetLogger()
+
 	if flag.Lookup("test.v") != nil {
 		config.QueueDb     = helper2.GetEnv("QUEUE_DB_TEST", "2")
 		config.QueueHost   = helper2.GetEnv("QUEUE_HOST_TEST", "localhost")
