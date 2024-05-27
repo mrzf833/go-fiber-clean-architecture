@@ -23,12 +23,12 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - mysql -> selesai ✅
 - hot reload menggunakan air -> selesai ✅
 - docker
-- logging (1)
+- logging (logrus) -> selesai ✅
 - postman -> sambil update (sudah diterapkan)
 - swagger -> sudah package
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
-- penerapan cli (cobra) -> sudah package (2)
+- penerapan cli (cobra) -> sudah package (1)
 - elastic search -> belum
 - go routine with csv data -> selesai ✅
 - penerapan queue -> selesai ✅
