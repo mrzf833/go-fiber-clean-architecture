@@ -52,6 +52,7 @@ package yang digunakan :
 - go get github.com/DATA-DOG/go-sqlmock
 - go get -u github.com/hibiken/asynq
 - go get github.com/hibiken/asynq
+- go get github.com/sirupsen/logrus
 
 matiin action save di goland
 
