@@ -434,7 +434,13 @@
 						"header": [],
 						"body": {
 							"mode": "formdata",
-							"formdata": []
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/mrzf833/code/go/go-fiber-clean-architecture/docs/data_category_banyak.csv"
+								}
+							]
 						},
 						"url": "{{url}}/api/category/csv"
 					},
@@ -453,1110 +459,17 @@
 						"header": [],
 						"body": {
 							"mode": "formdata",
-							"formdata": []
-						},
-						"url": "{{url}}/api/category/csv"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "inventory",
-			"item": [
-				{
-					"name": "get all inventory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": "{{url}}/api/inventory"
-					},
-					"response": [
-						{
-							"name": "get all inventory 200 OK",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": "{{url}}/api/inventory"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success get all inventory\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"category_id\": 1,\n            \"category_name\": \"buku\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": 1,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"buku bobo\",\n            \"description\": null,\n            \"status\": \"deposit\",\n            \"take_admin\": null,\n            \"take_student_id\": null,\n            \"take_name\": null,\n            \"take_time\": null\n        },\n        {\n            \"id\": 2,\n            \"category_id\": 1,\n            \"category_name\": \"hp\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": 1,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"hp samsung\",\n            \"description\": null,\n            \"status\": \"take\",\n            \"take_admin\": 1,\n            \"take_student_id\": 1,\n            \"take_name\": \"zulfa\",\n            \"take_time\": \"2022/09/03 13:50:14\"\n        }\n    ]\n}"
-						}
-					]
-				},
-				{
-					"name": "create inventory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "categoryId",
-									"value": "2",
-									"type": "text"
-								},
-								{
-									"key": "depositStudentId",
-									"value": "2",
-									"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-									"type": "text"
-								},
-								{
-									"key": "depositName",
-									"value": "asdasdasdasd",
-									"description": "dibutuhkan jika deposit_student_id tidak diisi",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "itemName",
-									"value": "buku",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "coba",
-									"type": "text"
+									"key": "file",
+									"type": "file",
+									"src": "/Users/mrzf833/code/go/go-fiber-clean-architecture/docs/data_category_banyak.csv"
 								}
 							]
 						},
-						"url": "{{url}}/api/inventory"
+						"url": "{{url}}/api/category/csv/queue"
 					},
-					"response": [
-						{
-							"name": "create inventory with deposit_student_id 200 OK",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "category_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "deposit_student_id",
-											"value": "1",
-											"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-											"type": "text"
-										},
-										{
-											"key": "deposit_name",
-											"value": "",
-											"description": "dibutuhkan jika deposit_student_id tidak diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "item_name",
-											"value": "buku",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "",
-											"type": "text"
-										}
-									]
-								},
-								"url": "{{url}}/api/inventory"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success create inventory\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"category_id\": 1,\n            \"category_name\": \"buku\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": 1,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"buku bobo\",\n            \"description\": null,\n            \"status\": \"deposit\",\n            \"take_admin\": null,\n            \"take_student_id\": null,\n            \"take_name\": null,\n            \"take_time\": null\n        },\n        {\n            \"id\": 2,\n            \"category_id\": 1,\n            \"category_name\": \"hp\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": 1,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"hp samsung\",\n            \"description\": null,\n            \"status\": \"take\",\n            \"take_admin\": 1,\n            \"take_student_id\": 1,\n            \"take_name\": \"zulfa\",\n            \"take_time\": \"2022/09/03 13:50:14\"\n        }\n    ]\n}"
-						},
-						{
-							"name": "create inventory item_name 200 OK",
-							"originalRequest": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "category_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "deposit_student_id",
-											"value": "1",
-											"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "deposit_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika deposit_student_id tidak diisi",
-											"type": "text"
-										},
-										{
-											"key": "item_name",
-											"value": "buku",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "",
-											"type": "text"
-										}
-									]
-								},
-								"url": "{{url}}/api/inventory"
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success create inventory\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"category_id\": 1,\n            \"category_name\": \"buku\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": null,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"buku bobo\",\n            \"description\": null,\n            \"status\": \"deposit\",\n            \"take_admin\": null,\n            \"take_student_id\": null,\n            \"take_name\": null,\n            \"take_time\": null\n        },\n        {\n            \"id\": 2,\n            \"category_id\": 1,\n            \"category_name\": \"hp\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": 1,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"hp samsung\",\n            \"description\": null,\n            \"status\": \"take\",\n            \"take_admin\": 1,\n            \"take_student_id\": 1,\n            \"take_name\": \"zulfa\",\n            \"take_time\": \"2022/09/03 13:50:14\"\n        }\n    ]\n}"
-						}
-					]
-				},
-				{
-					"name": "get inventory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}/api/inventory/:inventoryId",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"inventory",
-								":inventoryId"
-							],
-							"variable": [
-								{
-									"key": "inventoryId",
-									"value": "1"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "get inventory 200 OK",
-							"originalRequest": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success get inventory\",\n    \"data\": {\n            \"id\": 1,\n            \"category_id\": 1,\n            \"category_name\": \"buku\",\n            \"deposit_admin\": 1,\n            \"deposit_student_id\": 1,\n            \"deposit_name\": \"zulfa\",\n            \"deposit_time\": \"2022/08/28 16:30:30\",\n            \"item_name\": \"buku bobo\",\n            \"description\": null,\n            \"status\": \"deposit\",\n            \"take_admin\": null,\n            \"take_student_id\": null,\n            \"take_name\": null,\n            \"take_time\": null\n        }\n}"
-						}
-					]
-				},
-				{
-					"name": "update inventory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "categoryId",
-									"value": "2",
-									"type": "text"
-								},
-								{
-									"key": "depositStudentId",
-									"value": "2",
-									"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-									"type": "text"
-								},
-								{
-									"key": "depositName",
-									"value": "zulfa",
-									"description": "dibutuhkan jika deposit_student_id tidak diisi",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "depositTime",
-									"value": "2022-08-28 23:30:30",
-									"type": "text"
-								},
-								{
-									"key": "itemName",
-									"value": "buku update",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "",
-									"type": "text"
-								},
-								{
-									"key": "status",
-									"value": "take",
-									"type": "text"
-								},
-								{
-									"key": "takeStudentId",
-									"value": "2",
-									"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-									"type": "text"
-								},
-								{
-									"key": "takeName",
-									"value": "zulfa",
-									"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-									"type": "text",
-									"disabled": true
-								},
-								{
-									"key": "takeTime",
-									"value": "2022-08-28 16:30:31",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{url}}/api/inventory/:inventoryId",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"inventory",
-								":inventoryId"
-							],
-							"variable": [
-								{
-									"key": "inventoryId",
-									"value": "28"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "update inventory with deposit_student_id 200 OK",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "category_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "deposit_student_id",
-											"value": "1",
-											"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-											"type": "text"
-										},
-										{
-											"key": "deposit_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika deposit_student_id tidak diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "deposit_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										},
-										{
-											"key": "item_name",
-											"value": "buku update",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "status",
-											"value": "take",
-											"type": "text"
-										},
-										{
-											"key": "take_mahasiswa_id",
-											"value": "1",
-											"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-											"type": "text"
-										},
-										{
-											"key": "take_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "take_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success update inventory\",\n    \"data\": {\n        \"id\": 1,\n        \"category_id\": 1,\n        \"category_name\": \"buku\",\n        \"deposit_admin\": 1,\n        \"deposit_student_id\": 1,\n        \"deposit_name\": \"zulfa\",\n        \"deposit_time\": \"2022/08/28 16:30:30\",\n        \"item_name\": \"buku update\",\n        \"description\": null,\n        \"status\": \"take\",\n        \"take_admin\": 1,\n        \"take_student_id\": 1,\n        \"take_name\": \"zulfa\",\n        \"take_time\": \"2022/08/28 16:30:30\"\n    }\n}"
-						},
-						{
-							"name": "update inventory with deposit_name 200 OK",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "category_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "deposit_student_id",
-											"value": "1",
-											"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "deposit_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika deposit_student_id tidak diisi",
-											"type": "text"
-										},
-										{
-											"key": "deposit_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										},
-										{
-											"key": "item_name",
-											"value": "buku update",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "status",
-											"value": "take",
-											"type": "text"
-										},
-										{
-											"key": "take_mahasiswa_id",
-											"value": "1",
-											"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-											"type": "text"
-										},
-										{
-											"key": "take_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "take_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success update inventory\",\n    \"data\": {\n        \"id\": 1,\n        \"category_id\": 1,\n        \"category_name\": \"buku\",\n        \"deposit_admin\": 1,\n        \"deposit_student_id\": null,\n        \"deposit_name\": \"zulfa\",\n        \"deposit_time\": \"2022/08/28 16:30:30\",\n        \"item_name\": \"buku update\",\n        \"description\": null,\n        \"status\": \"take\",\n        \"take_admin\": 1,\n        \"take_student_id\": 1,\n        \"take_name\": \"zulfa\",\n        \"take_time\": \"2022/08/28 16:30:30\"\n    }\n}"
-						},
-						{
-							"name": "update inventory with take_mahasiswa_id 200 OK",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "category_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "deposit_student_id",
-											"value": "1",
-											"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "deposit_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika deposit_student_id tidak diisi",
-											"type": "text"
-										},
-										{
-											"key": "deposit_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										},
-										{
-											"key": "item_name",
-											"value": "buku update",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "status",
-											"value": "take",
-											"type": "text"
-										},
-										{
-											"key": "take_mahasiswa_id",
-											"value": "1",
-											"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-											"type": "text"
-										},
-										{
-											"key": "take_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "take_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success update inventory\",\n    \"data\": {\n        \"id\": 1,\n        \"category_id\": 1,\n        \"category_name\": \"buku\",\n        \"deposit_admin\": 1,\n        \"deposit_student_id\": null,\n        \"deposit_name\": \"zulfa\",\n        \"deposit_time\": \"2022/08/28 16:30:30\",\n        \"item_name\": \"buku update\",\n        \"description\": null,\n        \"status\": \"take\",\n        \"take_admin\": 1,\n        \"take_student_id\": 1,\n        \"take_name\": \"zulfa\",\n        \"take_time\": \"2022/08/28 16:30:30\"\n    }\n}"
-						},
-						{
-							"name": "update inventory with take_name 200 OK",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "category_id",
-											"value": "1",
-											"type": "text"
-										},
-										{
-											"key": "deposit_student_id",
-											"value": "1",
-											"description": "pilih salah satu deposit_student_id atau deposit_name yang diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "deposit_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika deposit_student_id tidak diisi",
-											"type": "text"
-										},
-										{
-											"key": "deposit_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										},
-										{
-											"key": "item_name",
-											"value": "buku update",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "status",
-											"value": "take",
-											"type": "text"
-										},
-										{
-											"key": "take_mahasiswa_id",
-											"value": "1",
-											"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "take_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-											"type": "text"
-										},
-										{
-											"key": "take_time",
-											"value": "2022/08/28 16:30:30",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success update inventory\",\n    \"data\": {\n        \"id\": 1,\n        \"category_id\": 1,\n        \"category_name\": \"buku\",\n        \"deposit_admin\": 1,\n        \"deposit_student_id\": null,\n        \"deposit_name\": \"zulfa\",\n        \"deposit_time\": \"2022/08/28 16:30:30\",\n        \"item_name\": \"buku update\",\n        \"description\": null,\n        \"status\": \"take\",\n        \"take_admin\": 1,\n        \"take_student_id\": null,\n        \"take_name\": \"zulfa\",\n        \"take_time\": \"2022/08/28 16:30:30\"\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "delete inventory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{url}}/api/inventory/:inventoryId",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"inventory",
-								":inventoryId"
-							],
-							"variable": [
-								{
-									"key": "inventoryId",
-									"value": "2"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "delete inventory 200 OK",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success delete inventory\"\n}"
-						}
-					]
-				},
-				{
-					"name": "take item inventory",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
-						},
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "take_student_id",
-									"value": "1",
-									"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-									"type": "text"
-								},
-								{
-									"key": "take_name",
-									"value": "zulfa",
-									"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
-						"url": {
-							"raw": "{{url}}/api/inventory/:inventoryId/take",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"inventory",
-								":inventoryId",
-								"take"
-							],
-							"variable": [
-								{
-									"key": "inventoryId",
-									"value": "3"
-								}
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "take item inventory with take_mahasiswa_id 200 OK",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "take_mahasiswa_id",
-											"value": "1",
-											"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-											"type": "text"
-										},
-										{
-											"key": "take_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-											"type": "text",
-											"disabled": true
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId/take",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId",
-										"take"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success take item inventory\",\n    \"data\": {\n        \"id\": 1,\n        \"category_id\": 1,\n        \"category_name\": \"buku\",\n        \"deposit_admin\": 1,\n        \"deposit_student_id\": 1,\n        \"deposit_name\": \"zulfa\",\n        \"deposit_time\": \"2022/08/28 16:30:30\",\n        \"item_name\": \"buku update\",\n        \"description\": null,\n        \"status\": \"take\",\n        \"take_admin\": 1,\n        \"take_student_id\": 1,\n        \"take_name\": \"zulfa\",\n        \"take_time\": \"2022/08/28 16:30:30\"\n    }\n}"
-						},
-						{
-							"name": "take item inventory with take_name 200 OK",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "urlencoded",
-									"urlencoded": [
-										{
-											"key": "take_mahasiswa_id",
-											"value": "1",
-											"description": "pilih salah satu take_mahasiswa_id atau take_name yang diisi",
-											"type": "text",
-											"disabled": true
-										},
-										{
-											"key": "take_name",
-											"value": "zulfa",
-											"description": "dibutuhkan jika take_mahasiswa_id tidak diisi",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{url}}/api/inventory/:inventoryId/take",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"inventory",
-										":inventoryId",
-										"take"
-									],
-									"variable": [
-										{
-											"key": "inventoryId",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": null,
-							"cookie": [],
-							"body": "{\n    \"message\": \"Success take item inventory\",\n    \"data\": {\n        \"id\": 1,\n        \"category_id\": 1,\n        \"category_name\": \"buku\",\n        \"deposit_admin\": 1,\n        \"deposit_student_id\": 1,\n        \"deposit_name\": \"zulfa\",\n        \"deposit_time\": \"2022/08/28 16:30:30\",\n        \"item_name\": \"buku update\",\n        \"description\": null,\n        \"status\": \"take\",\n        \"take_admin\": 1,\n        \"take_student_id\": null,\n        \"take_name\": \"zulfa\",\n        \"take_time\": \"2022/08/28 16:30:30\"\n    }\n}"
-						}
-					]
+					"response": []
 				}
 			]
 		},
@@ -1975,131 +888,160 @@
 			]
 		},
 		{
-			"name": "login",
-			"event": [
+			"name": "auth",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test('success', function(){",
-							"    pm.response.to.have.status(200);",
-							"    var jsonData = JSON.parse(responseBody);",
-							"    postman.setEnvironmentVariable('token', jsonData.data.token);",
-							"});"
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('success', function(){",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    postman.setEnvironmentVariable('token', jsonData.token);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
 						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "username",
-							"value": "john",
-							"type": "text"
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "john",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "doe",
+									"type": "text"
+								}
+							]
 						},
+						"url": "{{url}}/api/login"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"event": [
 						{
-							"key": "password",
-							"value": "doe",
-							"type": "text"
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/api/logout"
+					},
+					"response": []
+				},
+				{
+					"name": "user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": "{{url}}/api/user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "static file",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/static/:urlStatic",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"static",
+						":urlStatic"
+					],
+					"variable": [
+						{
+							"key": "urlStatic",
+							"value": "upload_file/1716922785100929.png"
 						}
 					]
-				},
-				"url": "{{url}}/api/login"
-			},
-			"response": []
-		},
-		{
-			"name": "logout",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
 				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{token}}"
-					}
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": "{{url}}/api/logout"
-			},
-			"response": []
-		},
-		{
-			"name": "user",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript",
-						"packages": {}
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": {
-						"token": "{{token}}"
-					}
-				},
-				"method": "GET",
-				"header": [
-					{
-						"key": "Accept",
-						"value": "application/json",
-						"type": "text"
-					},
-					{
-						"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"url": "{{url}}/api/user"
 			},
 			"response": []
 		}
