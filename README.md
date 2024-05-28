@@ -1,5 +1,4 @@
-Cara menggunakan
-
+### Cara install dan konfigurasinya
 - clone project ini
 - cd go-fiber-clean-architecture (masuk ke folder project)
 - go mod download
@@ -7,14 +6,15 @@ Cara menggunakan
 - isi semua .env yang di perlukan
 - import sqlnya untuk db dev, dan db testnya (ada di folder docs)
 
-- untuk run app serve
-- - go run ./cmd serve
+
+### untuk run app serve
+- go run ./cmd serve
+
+### untuk run queue serve
+- go run ./cmd queue
  
-- untuk run queue serve
-- - go run ./cmd queue
- 
-- untuk run monitoring queue
-- - go run ./cmd queue:monitoring
+### untuk run monitoring queue
+- go run ./cmd queue:monitoring
 
 isi dari docs
 
