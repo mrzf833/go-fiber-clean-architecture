@@ -439,6 +439,25 @@
 						"url": "{{url}}/api/category/csv"
 					},
 					"response": []
+				},
+				{
+					"name": "create category csv queue",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{url}}/api/category/csv"
+					},
+					"response": []
 				}
 			]
 		},
