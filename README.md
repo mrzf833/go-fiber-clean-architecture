@@ -28,7 +28,7 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - swagger -> sudah package
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
-- penerapan cli (cobra) -> sudah package (1)
+- penerapan cli (cobra) -> selesai ✅
 - elastic search -> belum
 - go routine with csv data -> selesai ✅
 - penerapan queue -> selesai ✅
@@ -53,6 +53,7 @@ package yang digunakan :
 - go get -u github.com/hibiken/asynq
 - go get github.com/hibiken/asynq
 - go get github.com/sirupsen/logrus
+- go get -u github.com/spf13/cobra@latest
 
 matiin action save di goland
 
