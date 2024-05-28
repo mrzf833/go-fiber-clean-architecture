@@ -22,18 +22,18 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - golang -> require go 1.19 keatas
 - mysql -> selesai ✅
 - hot reload menggunakan air -> selesai ✅
-- docker
+- docker -> (3)
 - logging (logrus) -> selesai ✅
 - postman -> sambil update (sudah diterapkan)
 - swagger -> sudah package
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
 - penerapan cli (cobra) -> selesai ✅
-- elastic search -> belum
+- elastic search -> (1)
 - go routine with csv data -> selesai ✅
 - penerapan queue -> selesai ✅
 - monitoring queue -> selesai ✅
-- websocket -> belum
+- websocket -> (2)
 - handle file/image dan menambahkan validation -> selesai ✅
 
 package yang digunakan :
