@@ -2,7 +2,7 @@
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 
 */
-package cli
+package generator
 
 import (
 	"github.com/spf13/cobra"

@@ -2,16 +2,16 @@
 Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 
 */
-package cli
+package generator
 
 import (
 	"github.com/spf13/cobra"
-	"go-fiber-clean-architecture/application/queue/monitoring/app"
+	"go-fiber-clean-architecture/application/queue/server/app"
 )
 
-// queueMonitoringCmd represents the queueMonitoring command
-var queueMonitoringCmd = &cobra.Command{
-	Use:   "queue:monitoring",
+// queueServeCmd represents the queueServe command
+var queueServeCmd = &cobra.Command{
+	Use:   "queue",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -25,15 +25,15 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(queueMonitoringCmd)
+	rootCmd.AddCommand(queueServeCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// queueMonitoringCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// queueServeCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// queueMonitoringCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// queueServeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

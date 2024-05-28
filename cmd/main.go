@@ -5,9 +5,9 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package main
 
 import (
-	"go-fiber-clean-architecture/cmd/cli"
+	"go-fiber-clean-architecture/application/console/commands/generator"
 )
 
 func main() {
-	cli.Execute()
+	generator.Execute()
 }
