@@ -50,7 +50,7 @@ func TestMain(m *testing.M) {
 	// run test
 	m.Run()
 
-	defer config.DB.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&domain.Auth{})
+	defer config.DB.Session(&gorm.Session{AllowGlobalUpdate: true}).Delete(&domain.User{})
 
 	// clean data
 	fmt.Println("After Test")

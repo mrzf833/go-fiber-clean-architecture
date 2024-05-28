@@ -6,8 +6,13 @@ import (
 	"github.com/stretchr/testify/mock"
 	"go-fiber-clean-architecture/application/app/category/mocks"
 	"go-fiber-clean-architecture/application/app/category/usecase"
+	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
+	"go-fiber-clean-architecture/application/utils"
+	"os"
+	"strconv"
 	"testing"
+	"time"
 )
 
 func TestGetAll(t *testing.T) {
@@ -260,5 +265,81 @@ func TestDelete(t *testing.T) {
 		assert.Error(t, err)
 		// kita akan memastikan bahwa mockCategoryRepo sudah dipanggil sesuai dengan ekspektasi
 		mockCategoryRepo.AssertExpectations(t)
+	})
+}
+
+func TestCreateWithCsv(t *testing.T) {
+	// buat mock object
+	mockCategoryRepo := new(mocks.CategoryRepository)
+
+	// testing Create success
+	t.Run("success", func(t *testing.T) {
+		//mockCategoryRepo.On("Create", mock.Anything, mock.AnythingOfType("domain.Category")).Return(mockCategory, nil).Once()
+		// kita membuat object categoryUcase yang menggunakan NewCategoryUseCase dengan parameter mockCategoryRepo
+		mockCategoryRepo.On("CreateInBatches", mock.Anything, mock.AnythingOfType("[]domain.Category"), mock.AnythingOfType("int")).Return(nil).Once()
+		categoryUcase := usecase.NewCategoryUseCase(mockCategoryRepo)
+
+		// kita akan membuat file csv memakai temporary file
+		fileCsv, err := os.CreateTemp("", "test.csv")
+		assert.NoError(t, err)
+		// write data to file
+		fileCsv.Write([]byte("name\ntest22\ntest33"))
+		fileCsv.Close()
+		// open file
+		fileCsv, err = os.Open(fileCsv.Name())
+		assert.NoError(t, err)
+
+		// membuat mock data tracker category
+		db, _ := utils.NewMockDB()
+		config.DB = db
+
+		// create tracker category
+		trackerCategory := domain.TrackerCategory{
+			Name: "Category Berubah",
+			Now: strconv.FormatInt(time.Now().UnixMilli(), 10),
+			End: " ",
+		}
+		config.DB.Create(&trackerCategory)
+
+		idTrackerCategory := trackerCategory.ID
+		categoryUcase.CreateWithCsv(context.TODO(), fileCsv, idTrackerCategory)
+		time.Sleep(2 * time.Second)
+		// kita akan memastikan bahwa mockCategoryRepo sudah dipanggil sesuai dengan ekspektasi
+		mockCategoryRepo.AssertExpectations(t)
+	})
+}
+
+func TestCreateWithCsvQueue(t *testing.T) {
+	// buat mock object
+	mockCategoryRepo := new(mocks.CategoryRepository)
+
+	// testing Create success
+	t.Run("success", func(t *testing.T) {
+		//mockCategoryRepo.On("Create", mock.Anything, mock.AnythingOfType("domain.Category")).Return(mockCategory, nil).Once()
+		// kita membuat object categoryUcase yang menggunakan NewCategoryUseCase dengan parameter mockCategoryRepo
+		//mockCategoryRepo.On("CreateInBatches", mock.Anything, mock.AnythingOfType("[]domain.Category"), mock.AnythingOfType("int")).Return(nil).Once()
+		categoryUcase := usecase.NewCategoryUseCase(mockCategoryRepo)
+
+		// kita akan membuat file csv memakai temporary file
+		fileCsv, err := os.CreateTemp("", "test.csv")
+		if err != nil {
+			t.Error("Error creating file")
+		}
+		// write data to file
+		fileCsv.Write([]byte("name\ntest22\ntest33"))
+		fileCsv.Close()
+		// open file
+		fileCsv, err = os.Open(fileCsv.Name())
+		assert.NoError(t, err)
+
+		utils.SetClientQueue()
+
+		err = categoryUcase.CreateWithCsvQueue(context.TODO(), fileCsv)
+		assert.NoError(t, err)
+		// kita akan memastikan bahwa mockCategoryRepo sudah dipanggil sesuai dengan ekspektasi
+		mockCategoryRepo.AssertExpectations(t)
+
+		// clear queue
+		utils.NewConnectClientQueueRedis().Conn().FlushDB(context.Background())
 	})
 }

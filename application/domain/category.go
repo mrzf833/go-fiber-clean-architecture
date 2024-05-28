@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"github.com/gofiber/fiber/v2"
+	"github.com/hibiken/asynq"
 	"io"
 	"time"
 )
@@ -46,4 +47,8 @@ type CategoryHandler interface {
 	Delete(c *fiber.Ctx) error
 	CreateWithCsv(c *fiber.Ctx) error
 	CreateWithCsvQueue(c *fiber.Ctx) error
+}
+
+type QueueCategoryJob interface {
+	HandleCategoryCreateWithCsvQueue(ctx context.Context, t *asynq.Task) error
 }

@@ -33,11 +33,11 @@ func NewCategoryCreateWithCsvQueue(data [][]string, size int) (*asynq.Task, erro
 }
 
 type QueueCategory struct {
-	repo domain.CategoryRepository
+	Repo domain.CategoryRepository
 }
 
-func NewQueueCategory(repo domain.CategoryRepository) *QueueCategory {
-	return &QueueCategory{repo: repo}
+func NewQueueCategory(repo domain.CategoryRepository) domain.QueueCategoryJob {
+	return &QueueCategory{Repo: repo}
 }
 
 func (q *QueueCategory) HandleCategoryCreateWithCsvQueue(ctx context.Context, t *asynq.Task) error {
@@ -57,7 +57,7 @@ func (q *QueueCategory) HandleCategoryCreateWithCsvQueue(ctx context.Context, t 
 		categoryRecords = append(categoryRecords, dataPush)
 	}
 
-	err := q.repo.CreateInBatches(ctx, categoryRecords, payload.Size)
+	err := q.Repo.CreateInBatches(ctx, categoryRecords, payload.Size)
 	if err != nil {
 		log.Error(err)
 		return err

@@ -4,12 +4,12 @@ import (
 	"context"
 	"encoding/csv"
 	"fmt"
+	log "github.com/sirupsen/logrus"
 	job_redis "go-fiber-clean-architecture/application/app/category/job/redis"
 	"go-fiber-clean-architecture/application/config"
 	"go-fiber-clean-architecture/application/domain"
 	"go-fiber-clean-architecture/application/utils"
 	"io"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -149,14 +149,15 @@ func (uc *categoryUseCase) CreateWithCsvQueue(ctx context.Context, file io.Reade
 		// do something
 		task, err := job_redis.NewCategoryCreateWithCsvQueue(batch, 1000)
 		if err != nil {
-			log.Printf("error on line 152 : %s", err)
+			log.Error(err)
 		}
+
 		info, err := config.CientQueue.Enqueue(task)
 		if err != nil {
-			fmt.Println("error on line 158 : ", err)
+			log.Error(err)
 		}
-		log.Printf("enqueued task: id=%s queue=%s", info.ID, info.Queue)
-	}
 
+		fmt.Printf("enqueued task: id=%s queue=%s\n", info.ID, info.Queue)
+	}
 	return nil
 }

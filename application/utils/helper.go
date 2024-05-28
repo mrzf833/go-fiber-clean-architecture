@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"flag"
 	"go-fiber-clean-architecture/application/utils/helper2"
 	"log"
 	"reflect"
@@ -43,6 +44,12 @@ func GetStoragePrivatePath() string {
 }
 
 func Recover()  {
+	// jika MODE test dijalankan maka tidak perlu recover
+	// karena test perlu log error
+	if flag.Lookup("test.v") != nil {
+		return
+	}
+
 	if r := recover(); r != nil {
 		log.Print("Recovered from ", r)
 	}
