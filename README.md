@@ -62,6 +62,7 @@ package yang digunakan :
 - go get github.com/hibiken/asynq
 - go get github.com/sirupsen/logrus
 - go get -u github.com/spf13/cobra@latest
+- go get github.com/elastic/go-elasticsearch/v8@latest
 
 matiin action save di goland
 
