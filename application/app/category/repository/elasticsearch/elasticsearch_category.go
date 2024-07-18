@@ -24,7 +24,7 @@ type ElasticStruct struct {
 }
 
 func (r *ElasticCategoryRepository) GetByID(ctx context.Context, id int64) (domain.Category, error) {
-	//TODO implement me
+
 	query := `{ "query": { "match": {"id": "` +  strconv.FormatInt(id, 10) + `"} } }`
 	search, _ := r.Db.Search(
 		r.Db.Search.WithIndex("category"),
