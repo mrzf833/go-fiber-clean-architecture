@@ -37,11 +37,11 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - jwt -> sudah package ✅
 - redis -> sudah package ✅
 - penerapan cli (cobra) -> selesai ✅
-- elastic search -> (1)
+- elastic search -> ✅
 - go routine with csv data -> selesai ✅
 - penerapan queue -> selesai ✅
 - monitoring queue -> selesai ✅
-- websocket -> (2)
+- websocket -> ❌
 - handle file/image dan menambahkan validation -> selesai ✅
 
 package yang digunakan :
