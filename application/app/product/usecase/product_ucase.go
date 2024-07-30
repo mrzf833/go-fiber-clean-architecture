@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"fmt"
 	"go-fiber-clean-architecture/application/domain"
 )
 
@@ -44,8 +45,25 @@ func (uc ProductUseCase) Create(ctx context.Context, product domain.Product) (do
 }
 
 func (uc ProductUseCase) Update(ctx context.Context, product domain.Product) (domain.Product, error) {
-	//TODO implement me
-	panic("implement me")
+	// pengecekan apakah data ada atau tidak
+	_, err := uc.ElastichProductRepo.GetByID(ctx, product.ID)
+	if err != nil {
+		return domain.Product{}, err
+	}
+
+	//	pengupdatean data
+	product, err = uc.MysqlProductRepo.Update(ctx, product)
+	if err != nil {
+		return domain.Product{}, err
+	}
+
+	res, err := uc.ElastichProductRepo.Update(ctx, product)
+	if err != nil {
+		return domain.Product{}, err
+	}
+
+	fmt.Println(res)
+	return product, err
 }
 
 func (uc ProductUseCase) Delete(ctx context.Context, id int64) error {

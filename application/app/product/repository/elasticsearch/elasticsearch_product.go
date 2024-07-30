@@ -47,6 +47,46 @@ func (r elasticProductRepository) GetByID(ctx context.Context, id int64) (domain
 	return product, nil
 }
 
+func (r elasticProductRepository) Update(ctx context.Context, product domain.Product) (domain.Product, error) {
+	query := `{ "query": { "match": {"id": "` +  strconv.FormatInt(product.ID, 10) + `"} } }`
+	search, _ := r.Db.Search(
+		r.Db.Search.WithIndex("product"),
+		r.Db.Search.WithBody(strings.NewReader(query)),
+	)
+
+	body, _ := io.ReadAll(search.Body)
+	var respond domain.ElastichSearchResponse
+	// unmarshal body to struct
+	json.Unmarshal(body, &respond)
+
+	if len(respond.Hits.Hits) == 0 {
+		return domain.Product{}, exception.ErrNotFound
+	}
+
+	var data domain.DataResponse
+	mapstructure.Decode(respond.Hits.Hits[0], &data)
+
+	dataJson, err := json.Marshal(product)
+	if err != nil {
+		return domain.Product{}, err
+	}
+
+	// tidak bisa digunakan untuk update data
+	_, err = r.Db.Update("product", data.Id, bytes.NewReader(dataJson))
+	if err != nil {
+		return domain.Product{}, err
+	}
+
+	// menggunakan ini saja
+	err = r.Delete(ctx, product.ID)
+	if err != nil {
+		return domain.Product{}, err
+	}
+	product, err = r.Create(ctx, product)
+
+	return product, nil
+}
+
 func (r elasticProductRepository) GetAll(ctx context.Context) ([]domain.Product, error) {
 	var products []domain.Product
 	query := `{ "query": { "match_all": {} } }`
@@ -86,11 +126,6 @@ func (r elasticProductRepository) Create(ctx context.Context, product domain.Pro
 	}
 
 	return product, nil
-}
-
-func (r elasticProductRepository) Update(ctx context.Context, product domain.Product) (domain.Product, error) {
-	//TODO implement me
-	panic("implement me")
 }
 
 func (r elasticProductRepository) Delete(ctx context.Context, id int64) error {

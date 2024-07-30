@@ -4,6 +4,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"github.com/jinzhu/copier"
+	"github.com/mitchellh/mapstructure"
 	"go-fiber-clean-architecture/application/app/product/request"
 	"go-fiber-clean-architecture/application/domain"
 	"strconv"
@@ -95,5 +96,46 @@ func (handler *ProductHandler) Delete(c *fiber.Ctx) error {
 	// return response
 	return c.JSON(map[string]any{
 		"message": "Success delete product",
+	})
+}
+
+func (handler *ProductHandler) Update(c *fiber.Ctx) error {
+	var product domain.Product
+	var productUpdateRequest request.ProductUpdateRequest
+	// ambil data dari request ke struct
+	c.BodyParser(&productUpdateRequest)
+	err := handler.Validate.Struct(productUpdateRequest)
+
+	if err != nil {
+		return err
+	}
+
+	mapstructure.Decode(productUpdateRequest, &product)
+
+	if err != nil {
+		return err
+	}
+
+	if err != nil {
+		return err
+	}
+
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return err
+	}
+
+	product.ID = int64(id)
+
+	// update data ke database menggunakan usecase
+	res, err := handler.ProductUseCase.Update(c.Context(), product)
+	if err != nil {
+		return err
+	}
+
+	// return response
+	return c.JSON(map[string]any{
+		"message": "Success update product",
+		"data":    res,
 	})
 }

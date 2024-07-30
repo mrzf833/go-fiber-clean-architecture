@@ -28,4 +28,5 @@ func productRouterApi(api fiber.Router, validate *validator.Validate)  {
 	productApi.Post("/", handler.Create)
 	productApi.Get("/:id", handler.GetByID)
 	productApi.Delete("/:id", handler.Delete)
+	productApi.Put("/:id", handler.Update)
 }
