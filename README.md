@@ -30,7 +30,7 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - golang -> require go 1.19 keatas
 - mysql -> selesai ✅
 - hot reload menggunakan air -> selesai ✅
-- docker -> (3)
+- docker -> ⭕️
 - logging (logrus) -> selesai ✅
 - postman -> sambil update (sudah diterapkan)
 - swagger -> sudah package
