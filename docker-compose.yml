@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # Service Golang
+  golang-clean-architecture:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: golang-clean-architecture
+    working_dir: /go/src/app
+    command: sh -c "./application/application"
+    depends_on:
+      - mysql-clean-architecture
+      - redis-clean-architecture
+      - elasticsearch-clean-architecture
+    networks:
+      - clean-architecture
+        
+  golang-clean-architecture-queue-server:
+    image: golang-clean-architecture
+    working_dir: /go/src/app
+    command: sh -c "./application/queue/server/server"
+    depends_on:
+      - golang-clean-architecture
+    networks:
+      - clean-architecture
+      
+  golang-clean-architecture-queue-monitoring:
+    image: golang-clean-architecture
+    working_dir: /go/src/app
+    command: sh -c "./application/queue/monitoring/monitoring"
+    ports:
+      - "3001:8083"
+    depends_on:
+      - golang-clean-architecture
+    networks:
+      - clean-architecture
+
+  # Service MySQL
+  mysql-clean-architecture:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: inventory
+      MYSQL_PASSWORD: password
+#    ports:
+#      - "3306:3306"
+    volumes:
+      - ./mysql-data:/docker-entrypoint-initdb.d
+    restart: always
+    networks:
+      - clean-architecture
+
+  # Service Redis
+  redis-clean-architecture:
+    image: redis:alpine
+#    ports:
+#      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - clean-architecture
+
+  # Service Elasticsearch
+  elasticsearch-clean-architecture:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+#    ports:
+#      - "9200:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - clean-architecture
+
+  # Service Nginx
+  nginx-clean-architecture:
+    image: nginx:latest
+    ports:
+      - "3000:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - golang-clean-architecture
+    networks:
+      - clean-architecture
+
+  # phpmyadmin
+  phpmyadmin-clean-architecture:
+    depends_on:
+      - mysql-clean-architecture
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8094:80"
+    environment:
+      PMA_HOST: mysql-clean-architecture
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - clean-architecture
+
+volumes:
+  mysql_data:
+  redis_data:
+  es_data:
+
+networks:
+    clean-architecture:
+        driver: bridge
