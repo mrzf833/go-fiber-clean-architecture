@@ -18,7 +18,7 @@
 
 isi dari docs
 
-- spec api 
+- spec api ✅
 - isi sql default ✅
 - postman ✅
 - cara penggunaan api ⭕️
@@ -30,7 +30,7 @@ disini saya mencoba membuat go clean architecture dengan menggunakan :
 - golang -> require go 1.19 keatas
 - mysql -> selesai ✅
 - hot reload menggunakan air -> selesai ✅
-- docker -> ⭕️
+- docker -> ✅
 - logging (logrus) -> selesai ✅
 - postman -> sambil update (sudah diterapkan)
 - swagger -> sudah package
