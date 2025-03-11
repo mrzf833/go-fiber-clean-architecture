@@ -21,8 +21,8 @@ isi dari docs
 - spec api ✅
 - isi sql default ✅
 - postman ✅
-- cara penggunaan api ⭕️
-- cara penggunaan docker ⭕️
+- cara penggunaan aplikasi ✅
+- cara penggunaan docker ✅
 
 
 
